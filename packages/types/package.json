@@ -1,0 +1,8 @@
+{
+  "name": "@netlium/types",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "main": "./src/index.tsal",
+  "files": ["src"]
+}
