@@ -2,7 +2,8 @@
 
 import { useActionState } from "react";
 import Link from "next/link";
-import { signup, initialAuthActionState } from "../actions";
+import { signup } from "../actions";
+import { initialAuthActionState } from "../schema";
 import { SubmitButton } from "../SubmitButton";
 
 export function SignupForm() {

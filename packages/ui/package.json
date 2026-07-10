@@ -7,7 +7,8 @@
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {
-    ".": "./src/index.ts"
+    ".": "./src/index.ts",
+    "./styles/tokens.css": "./src/styles/tokens.css"
   },
   "files": [
     "dist"
@@ -20,7 +21,16 @@
   "dependencies": {
     "@netlium/types": "workspace:*",
     "react": "^19.2.0",
-    "react-dom": "^19.2.0"
+    "react-dom": "^19.2.0",
+    "clsx": "^2.1.1",
+    "tailwind-merge": "^3.6.0",
+    "class-variance-authority": "^0.7.1",
+    "lucide-react": "^1.24.0",
+    "framer-motion": "^12.0.0",
+    "cmdk": "^1.1.1",
+    "@radix-ui/react-dialog": "^1.1.19",
+    "@radix-ui/react-dropdown-menu": "^2.1.20",
+    "sonner": "^2.0.7"
   },
   "peerDependencies": {
     "react": "^19.0.0",

@@ -2,21 +2,8 @@
 
 import { redirect } from "next/navigation";
 import { createSupabaseServerClient } from "@netlium/lib/supabase/server";
-
-export interface AuthActionState {
-  readonly error: string | null;
-  readonly success: boolean;
-}
-
-export const initialAuthActionState: AuthActionState = {
-  error: null,
-  success: false
-};
-
-function readRequiredField(formData: FormData, field: string): string | null {
-  const value = formData.get(field);
-  return typeof value === "string" && value.length > 0 ? value : null;
-}
+import { readRequiredField } from "./auth-utils";
+import type { AuthActionState } from "./schema";
 
 export async function login(
   _prevState: AuthActionState,

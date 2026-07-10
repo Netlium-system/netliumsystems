@@ -2,7 +2,8 @@
 
 import { useActionState } from "react";
 import Link from "next/link";
-import { login, initialAuthActionState } from "../actions";
+import { login } from "../actions";
+import { initialAuthActionState } from "../schema";
 import { SubmitButton } from "../SubmitButton";
 
 export function LoginForm() {
