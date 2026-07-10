@@ -22,14 +22,6 @@
     "test": "echo \"No test suite configured yet\""
   },
 
-  "devEngines": {
-    "packageManager": {
-      "name": "pnpm",
-      "version": "11.9.0",
-      "onFail": "download"
-    }
-  },
-
   "devDependencies": {
     "@types/node": "^26.0.1",
     "@types/react": "^19.2.17",
