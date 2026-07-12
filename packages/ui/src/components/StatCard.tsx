@@ -24,7 +24,7 @@ export function StatCard({ label, value, delta, deltaTone = "neutral", icon, cla
         <p className="text-body-sm font-medium text-text-secondary">{label}</p>
         {icon && <span className="text-text-muted">{icon}</span>}
       </div>
-      <p className="mt-2 text-h2 font-semibold text-text-primary">{value}</p>
+      <p className="mt-2 font-mono text-h2 font-semibold text-text-primary">{value}</p>
       {delta && <p className={cn("mt-1 text-body-sm", deltaToneClasses[deltaTone])}>{delta}</p>}
     </Card>
   );

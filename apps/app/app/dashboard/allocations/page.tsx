@@ -1,3 +1,5 @@
+import { SlidersHorizontal } from "lucide-react";
+import { Card, EmptyState } from "@netlium/ui";
 import { requireRole } from "@/lib/auth";
 
 export default async function AllocationsPage() {
@@ -6,18 +8,19 @@ export default async function AllocationsPage() {
   return (
     <div className="space-y-8 py-8">
       <div>
-        <h1 className="text-4xl font-bold tracking-tight">Capital Allocations</h1>
-        <p className="mt-2 text-slate-400">Manage capital allocation across strategies and mandates</p>
+        <h1 className="text-h1 font-semibold tracking-tight text-text-primary">Capital Allocations</h1>
+        <p className="mt-2 text-body text-text-secondary">
+          Manage capital allocation across strategies and mandates
+        </p>
       </div>
 
-      <div className="rounded-lg border border-slate-800 bg-slate-900 p-6">
-        <div className="text-center py-12">
-          <p className="text-slate-400">No allocations configured</p>
-          <p className="mt-2 text-sm text-slate-500">
-            Connect to Supabase to manage capital allocations
-          </p>
-        </div>
-      </div>
+      <Card>
+        <EmptyState
+          icon={<SlidersHorizontal className="size-5" aria-hidden="true" />}
+          title="No allocations configured"
+          description="Connect to Supabase to manage capital allocations."
+        />
+      </Card>
     </div>
   );
 }

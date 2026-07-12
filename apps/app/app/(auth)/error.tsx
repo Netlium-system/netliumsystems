@@ -23,7 +23,7 @@ export default function AuthError({ reset }: AuthErrorProps) {
             We couldn&apos;t complete your request. Please try again.
           </p>
         </div>
-        <Button type="button" variant="secondary" className="h-11 rounded-[8px]" onClick={() => reset()}>
+        <Button type="button" variant="secondary" className="h-11" onClick={() => reset()}>
           Try again
         </Button>
       </AuthCard>

@@ -11,8 +11,8 @@ import { AuthShell } from "../components/AuthShell";
 import { AuthCard } from "../components/AuthCard";
 
 const inputClass =
-  "h-10 rounded-[8px] border-[color:var(--color-border-whisper)] bg-surface-1 transition-[border-color,box-shadow] focus:border-accent-emerald focus:shadow-[var(--shadow-focus-ring-emerald)]";
-const ctaClass = "h-11 w-full rounded-[8px]";
+  "h-10 border-[color:var(--color-border-whisper)] bg-surface-1 transition-[border-color,box-shadow] focus:border-accent-emerald focus:shadow-[var(--shadow-focus-ring-emerald)]";
+const ctaClass = "h-11 w-full";
 
 export function ResetPasswordForm() {
   const [state, formAction, isPending] = useActionState(resetPassword, initialAuthActionState);

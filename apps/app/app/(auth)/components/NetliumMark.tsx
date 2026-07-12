@@ -12,17 +12,6 @@ export function NetliumMark({ size = 40, animated = false, className }: NetliumM
       className={cn("relative inline-flex shrink-0 items-center justify-center", className)}
       style={{ width: size, height: size }}
     >
-      {animated && (
-        <span
-          aria-hidden="true"
-          className="absolute -inset-2 rounded-full opacity-20 blur-md"
-          style={{
-            background:
-              "conic-gradient(from 0deg, var(--color-accent-emerald), var(--color-accent-emerald-strong), var(--color-accent-emerald))",
-            animation: "spin 4s linear infinite"
-          }}
-        />
-      )}
       <svg
         viewBox="0 0 40 40"
         width={size}

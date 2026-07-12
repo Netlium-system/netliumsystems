@@ -1,9 +1,9 @@
 import { ShieldCheck, Lock, KeyRound } from "lucide-react";
 
 const items = [
-  { icon: Lock, label: "Enterprise encryption" },
-  { icon: KeyRound, label: "Secure authentication" },
-  { icon: ShieldCheck, label: "Session protection" }
+  { icon: Lock, label: "Encrypted" },
+  { icon: KeyRound, label: "Verified" },
+  { icon: ShieldCheck, label: "Protected" }
 ] as const;
 
 export function TrustFooter() {

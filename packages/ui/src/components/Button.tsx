@@ -8,20 +8,21 @@ import type { HTMLMotionProps } from "framer-motion";
 import { cva, type VariantProps } from "class-variance-authority";
 import { Loader2 } from "lucide-react";
 import { cn } from "./utils/cn";
+import { MOTION_DURATION, MOTION_EASE } from "../theme/motion";
 
 export const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-body font-medium transition duration-150 ease-out hover:-translate-y-px active:translate-y-0 active:brightness-95 focus-visible:outline-none focus-visible:shadow-[var(--shadow-focus-ring)] disabled:pointer-events-none disabled:opacity-50 disabled:hover:translate-y-0",
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-sm text-body font-medium transition duration-[120ms] ease-out hover:-translate-y-px active:translate-y-0 active:brightness-95 focus-visible:outline-none focus-visible:shadow-[var(--shadow-focus-ring)] disabled:pointer-events-none disabled:opacity-50 disabled:hover:translate-y-0",
   {
     variants: {
       variant: {
-        primary: "bg-primary text-primary-foreground hover:brightness-110 shadow-sm",
+        primary: "bg-accent-emerald text-accent-emerald-foreground hover:brightness-105 shadow-sm",
         accent: "bg-accent-emerald text-accent-emerald-foreground hover:brightness-105 shadow-sm",
         secondary:
           "bg-surface-3 text-text-primary border border-border-default hover:border-border-hover",
         ghost: "bg-transparent text-text-secondary hover:bg-surface-2 hover:text-text-primary",
         outline:
           "bg-transparent text-text-primary border border-border-default hover:bg-surface-2",
-        soft: "bg-primary/12 text-primary hover:bg-primary/20",
+        soft: "bg-accent-emerald/12 text-accent-emerald hover:bg-accent-emerald/20",
         destructive: "bg-danger text-danger-foreground hover:brightness-110 shadow-sm",
         success: "bg-success text-success-foreground hover:brightness-110 shadow-sm",
         warning: "bg-warning text-warning-foreground hover:brightness-110 shadow-sm"
@@ -65,15 +66,9 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
     );
   }
 
-  const tapAnimation =
-    disabled || loading
-      ? {}
-      : { whileTap: { scale: 0.98, transition: { duration: 0.15, ease: [0.16, 1, 0.3, 1] as const } } };
-
   return (
     <motion.button
       ref={ref}
-      {...tapAnimation}
       className={classes}
       disabled={disabled || loading}
       {...(props as HTMLMotionProps<"button">)}
@@ -82,10 +77,10 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
         {loading && (
           <motion.span
             key="spinner"
-            initial={{ opacity: 0, scale: 0.85, width: 0 }}
-            animate={{ opacity: 1, scale: 1, width: "auto" }}
-            exit={{ opacity: 0, scale: 0.85, width: 0 }}
-            transition={{ duration: 0.15, ease: [0.16, 1, 0.3, 1] }}
+            initial={{ opacity: 0, width: 0 }}
+            animate={{ opacity: 1, width: "auto" }}
+            exit={{ opacity: 0, width: 0 }}
+            transition={{ duration: MOTION_DURATION.fast, ease: MOTION_EASE.out }}
             className="inline-flex overflow-hidden"
           >
             <Loader2 className="size-4 animate-spin" aria-hidden="true" />

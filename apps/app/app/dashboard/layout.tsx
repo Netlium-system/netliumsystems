@@ -4,11 +4,11 @@ import { dashboardNavItems } from "@/components/navigation/dashboardNav";
 import { filterNavByRole } from "@/components/security/filterNavByRole";
 import { resolveRole } from "@/components/security/resolveRole";
 import { SignOutButton } from "@/components/security/SignOutButton";
-import { requireUser } from "@/lib/auth";
+import { requireProvisionedUser } from "@/lib/auth";
 
 export default async function DashboardLayout({ children }: { readonly children: ReactNode }) {
-  const user = await requireUser();
-  const role = resolveRole(user);
+  const { user } = await requireProvisionedUser();
+  const role = await resolveRole(user.id);
   const navItems = filterNavByRole(dashboardNavItems, role);
 
   return (

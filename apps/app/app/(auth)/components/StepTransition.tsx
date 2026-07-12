@@ -2,6 +2,7 @@
 
 import type { ReactNode } from "react";
 import { motion } from "framer-motion";
+import { MOTION_DURATION, MOTION_EASE } from "@netlium/ui";
 
 export interface StepTransitionProps {
   readonly stepKey: string;
@@ -9,9 +10,9 @@ export interface StepTransitionProps {
 }
 
 const variants = {
-  initial: { opacity: 0, scale: 0.98 },
-  animate: { opacity: 1, scale: 1 },
-  exit: { opacity: 0, scale: 0.98 }
+  initial: { opacity: 0, y: 6 },
+  animate: { opacity: 1, y: 0 },
+  exit: { opacity: 0, y: -6 }
 };
 
 export function StepTransition({ stepKey, children }: StepTransitionProps) {
@@ -22,7 +23,7 @@ export function StepTransition({ stepKey, children }: StepTransitionProps) {
       animate="animate"
       exit="exit"
       variants={variants}
-      transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
+      transition={{ duration: MOTION_DURATION.normal, ease: MOTION_EASE.out }}
     >
       {children}
     </motion.div>

@@ -1,17 +1,18 @@
+import { createSupabaseServerClient } from "@netlium/lib/supabase/server";
 import { type Role } from "@netlium/lib";
 
 const KNOWN_ROLES: readonly Role[] = ["user", "operator", "analyst", "manager", "admin", "super_admin"];
 
-interface UserWithMetadata {
-  readonly user_metadata?: Record<string, unknown> | null;
-}
+/**
+ * Resolves a user's role from the `user_roles` table (source of truth), not
+ * from `auth.user_metadata`, which is client-influenced and cannot be trusted
+ * for access control. Defaults to "user" if no row exists or the stored value
+ * isn't a recognized role.
+ */
+export async function resolveRole(userId: string): Promise<Role> {
+  const supabase = await createSupabaseServerClient();
+  const { data } = await supabase.from("user_roles").select("role").eq("user_id", userId).maybeSingle();
 
-// Provisional: reads role from Supabase auth user_metadata, defaulting to "user".
-// Phase 2E's server-side authorization helpers should replace this with a proper
-// role source (e.g. a roles table or JWT custom claims).
-export function resolveRole(user: UserWithMetadata): Role {
-  const role = user.user_metadata?.role;
-  return typeof role === "string" && (KNOWN_ROLES as readonly string[]).includes(role)
-    ? (role as Role)
-    : "user";
+  const role = data?.role;
+  return typeof role === "string" && (KNOWN_ROLES as readonly string[]).includes(role) ? (role as Role) : "user";
 }

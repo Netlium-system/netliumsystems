@@ -19,14 +19,14 @@ export interface LabelProps extends LabelHTMLAttributes<HTMLLabelElement> {}
 export function Label({ className, ...props }: LabelProps) {
   return (
     <label
-      className={cn("block text-body-sm font-medium text-text-secondary", className)}
+      className={cn("block text-label text-text-secondary", className)}
       {...props}
     />
   );
 }
 
 const inputClasses =
-  "w-full rounded-md border border-border-default bg-surface-2 px-3 py-2 text-body text-text-primary placeholder-text-muted transition-colors duration-150 ease-out focus:border-border-focus focus:outline-none focus:shadow-[var(--shadow-focus-ring)] disabled:opacity-50 aria-[invalid=true]:border-danger";
+  "w-full rounded-xs border border-border-default bg-surface-2 px-3 py-2 text-body text-text-primary placeholder-text-muted transition-colors duration-150 ease-out focus:border-border-focus focus:outline-none focus:shadow-[var(--shadow-focus-ring)] disabled:opacity-50 aria-[invalid=true]:border-danger";
 
 export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {}
 

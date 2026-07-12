@@ -7,8 +7,8 @@ export interface HeaderProps {
 
 export function Header({ title, actions }: HeaderProps): ReactElement {
   return (
-    <header className="flex items-center justify-between border-b border-slate-800 bg-slate-950 px-6 py-4">
-      <h1 className="text-lg font-semibold tracking-tight">{title}</h1>
+    <header className="flex h-[72px] shrink-0 items-center justify-between border-b border-border-hairline bg-topnav px-6 md:px-8">
+      <h1 className="text-h4 font-semibold tracking-tight text-text-primary">{title}</h1>
       {actions && <div className="flex items-center gap-4">{actions}</div>}
     </header>
   );

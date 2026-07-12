@@ -6,15 +6,6 @@ const nextConfig = {
     "@netlium/ui",
     "@netlium/types"
   ],
-  async redirects() {
-    return [
-      {
-        source: "/",
-        destination: "/dashboard",
-        permanent: false
-      }
-    ];
-  },
   experimental: {
     serverActions: {
       // Server Actions compare the request's Origin header against the safelist

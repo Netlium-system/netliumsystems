@@ -2,7 +2,7 @@ import type { HTMLAttributes, ReactNode } from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "./utils/cn";
 
-const cardVariants = cva("rounded-lg border border-border-default", {
+const cardVariants = cva("rounded-md border border-border-default", {
   variants: {
     elevation: {
       flat: "bg-surface-2 shadow-none",
