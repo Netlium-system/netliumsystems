@@ -92,7 +92,7 @@ export async function submitProvisioning(input: ProvisioningPayload): Promise<Pr
   }
 
   const { data: existingPortfolio } = await admin
-    .from("portfolios")
+    .from("investment_portfolios")
     .select("id")
     .eq("profile_id", user.id)
     .maybeSingle();
@@ -101,7 +101,7 @@ export async function submitProvisioning(input: ProvisioningPayload): Promise<Pr
     existingPortfolio?.id ??
     (
       await admin
-        .from("portfolios")
+        .from("investment_portfolios")
         .insert({ profile_id: user.id })
         .select("id")
         .single()

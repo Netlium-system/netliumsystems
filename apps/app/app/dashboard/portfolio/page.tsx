@@ -11,7 +11,11 @@ export default async function PortfolioPage() {
   const supabase = await createSupabaseServerClient();
 
   const { data: portfolio } = profile
-    ? await supabase.from("portfolios").select("id, name, currency, status").eq("profile_id", profile.id).maybeSingle()
+    ? await supabase
+        .from("investment_portfolios")
+        .select("id, name, currency, status")
+        .eq("profile_id", profile.id)
+        .maybeSingle()
     : { data: null };
 
   const { data: wallet } = profile

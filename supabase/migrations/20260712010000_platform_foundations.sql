@@ -56,8 +56,13 @@ update "public"."profiles" set "investor_type" = 'individual'
 -- (provisioned together); modeled as separate tables because Portfolio ->
 -- Wallet is a real relationship the product will grow into (multiple
 -- wallets per portfolio is the reason `wallets` isn't just a column).
+-- Named `investment_portfolios`, not `portfolios` — that name is already
+-- taken by a pre-existing, actively-used table (a different, legacy
+-- DeFi-strategies feature: populated by the handle_new_user trigger and
+-- foreign-keyed from holdings/strategies/yields/risk_scores/
+-- rebalancing_events). This is a distinct concept and must not collide.
 -- ---------------------------------------------------------------------------
-create table if not exists "public"."portfolios" (
+create table if not exists "public"."investment_portfolios" (
   "id" uuid primary key default gen_random_uuid(),
   "profile_id" uuid not null unique references auth.users(id) on delete cascade,
   "name" text not null default 'Primary Portfolio',
@@ -66,14 +71,14 @@ create table if not exists "public"."portfolios" (
   "created_at" timestamp with time zone not null default now()
 );
 
-alter table "public"."portfolios" enable row level security;
+alter table "public"."investment_portfolios" enable row level security;
 
-create policy "portfolios_select_own" on "public"."portfolios"
+create policy "investment_portfolios_select_own" on "public"."investment_portfolios"
   for select using (auth.uid() = profile_id);
 
 create table if not exists "public"."wallets" (
   "id" uuid primary key default gen_random_uuid(),
-  "portfolio_id" uuid not null references "public"."portfolios"(id) on delete cascade,
+  "portfolio_id" uuid not null references "public"."investment_portfolios"(id) on delete cascade,
   "profile_id" uuid not null references auth.users(id) on delete cascade,
   "provider" text not null default 'internal',
   "created_at" timestamp with time zone not null default now()
