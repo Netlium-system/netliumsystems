@@ -13,7 +13,7 @@ export async function getPortfolios() {
   return [];
 }
 
-export async function getHoldings(portfolioId: string) {
+export async function getHoldings(_portfolioId: string) {
   // TODO: Fetch from Supabase
   return [];
 }

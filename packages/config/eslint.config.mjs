@@ -1,32 +1,23 @@
 import { createRequire } from "node:module";
-import js from "@eslint/js";
-import { FlatCompat } from "@eslint/eslintrc";
 
 const require = createRequire(import.meta.url);
-const compat = new FlatCompat({
-  baseDirectory: new URL(".", import.meta.url).pathname,
-  recommendedConfig: js.configs.recommended
-});
+const tsParser = require("@typescript-eslint/parser");
+const tsPlugin = require("@typescript-eslint/eslint-plugin");
+const reactPlugin = require("eslint-plugin-react");
+const reactHooksPlugin = require("eslint-plugin-react-hooks");
+const jsxA11yPlugin = require("eslint-plugin-jsx-a11y");
+const unusedImportsPlugin = require("eslint-plugin-unused-imports");
 
 export default [
   {
     ignores: ["**/node_modules/**", "**/dist/**", "**/.next/**", "**/build/**"]
   },
-  ...compat.extends(
-    "eslint:recommended",
-    "plugin:react/recommended",
-    "plugin:react-hooks/recommended",
-    "plugin:jsx-a11y/recommended",
-    "plugin:import/recommended",
-    "plugin:import/typescript",
-    "next/core-web-vitals"
-  ),
   {
     files: ["**/*.{js,jsx,mjs,cjs,ts,tsx}"],
     languageOptions: {
       ecmaVersion: "latest",
       sourceType: "module",
-      parser: require("@typescript-eslint/parser"),
+      parser: tsParser,
       parserOptions: {
         ecmaFeatures: {
           jsx: true
@@ -34,12 +25,11 @@ export default [
       }
     },
     plugins: {
-      "@typescript-eslint": require("@typescript-eslint/eslint-plugin"),
-      react: require("eslint-plugin-react"),
-      "react-hooks": require("eslint-plugin-react-hooks"),
-      "jsx-a11y": require("eslint-plugin-jsx-a11y"),
-      import: require("eslint-plugin-import"),
-      "unused-imports": require("eslint-plugin-unused-imports")
+      "@typescript-eslint": tsPlugin,
+      react: reactPlugin,
+      "react-hooks": reactHooksPlugin,
+      "jsx-a11y": jsxA11yPlugin,
+      "unused-imports": unusedImportsPlugin
     },
     settings: {
       react: {
@@ -47,25 +37,10 @@ export default [
       }
     },
     rules: {
+      "no-console": ["warn", { allow: ["warn", "error"] }],
       "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_", "varsIgnorePattern": "^_" }],
       "unused-imports/no-unused-imports": "error",
       "unused-imports/no-unused-vars": ["warn", { "vars": "all", "varsIgnorePattern": "^_", "args": "after-used", "argsIgnorePattern": "^_" }],
-      "import/order": [
-        "warn",
-        {
-          groups: ["builtin", "external", "internal", "parent", "sibling", "index", "type"],
-          pathGroups: [
-            {
-              pattern: "@netlium/**",
-              group: "internal",
-              position: "after"
-            }
-          ],
-          pathGroupsExcludedImportTypes: ["builtin"],
-          "newlines-between": "always",
-          alphabetize: { order: "asc", caseInsensitive: true }
-        }
-      ],
       "react/jsx-uses-react": "off",
       "react/react-in-jsx-scope": "off",
       "react-hooks/rules-of-hooks": "error",

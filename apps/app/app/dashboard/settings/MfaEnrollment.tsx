@@ -124,7 +124,6 @@ export function MfaEnrollment() {
           <p className="text-body-sm text-text-secondary">
             Scan this code with your authenticator app, then enter the 6-digit code it generates.
           </p>
-          {/* eslint-disable-next-line @next/next/no-img-element -- Supabase returns a data: URI SVG, not a static asset Next can optimize */}
           <img src={qrCode} alt="MFA enrollment QR code" className="size-40 self-center rounded-sm bg-white p-2" />
           {secret && <p className="break-all text-center text-caption text-text-muted">{secret}</p>}
           <Field>
