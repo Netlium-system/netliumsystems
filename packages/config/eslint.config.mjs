@@ -1,14 +1,18 @@
 import { createRequire } from "node:module";
-import prettierConfig from "eslint-config-prettier";
+import js from "@eslint/js";
+import { FlatCompat } from "@eslint/eslintrc";
 
 const require = createRequire(import.meta.url);
-const { FlatCompat } = prettierConfig;
 const compat = new FlatCompat({
-  baseDirectory: new URL(".", import.meta.url).pathname
+  baseDirectory: new URL(".", import.meta.url).pathname,
+  recommendedConfig: js.configs.recommended
 });
 
 export default [
-  ...compat.extends([
+  {
+    ignores: ["**/node_modules/**", "**/dist/**", "**/.next/**", "**/build/**"]
+  },
+  ...compat.extends(
     "eslint:recommended",
     "plugin:react/recommended",
     "plugin:react-hooks/recommended",
@@ -16,14 +20,14 @@ export default [
     "plugin:import/recommended",
     "plugin:import/typescript",
     "next/core-web-vitals"
-  ]),
+  ),
   {
+    files: ["**/*.{js,jsx,mjs,cjs,ts,tsx}"],
     languageOptions: {
       ecmaVersion: "latest",
       sourceType: "module",
-      parser: "@typescript-eslint/parser",
+      parser: require("@typescript-eslint/parser"),
       parserOptions: {
-        project: ["./tsconfig.base.json"],
         ecmaFeatures: {
           jsx: true
         }
