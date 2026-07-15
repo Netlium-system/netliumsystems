@@ -8,28 +8,41 @@
 -- account appears complete while missing a portfolio or wallet.
 --
 -- This migration:
--- 1. Adds a unique constraint on wallets(profile_id) — one wallet per
+-- 1. Adds a unique constraint on organizations(owner_id) — the provisioning
+--    model creates exactly one organization per user. This enforces the
+--    business invariant and provides the ON CONFLICT target required by the
+--    provision_account function below.
+--
+-- 2. Adds a unique constraint on wallets(profile_id) — one wallet per
 --    provisioned profile. Required for ON CONFLICT idempotency in the
 --    provisioning function and enforces the business invariant documented
 --    in platform_foundations (currently only implicit).
 --
--- 2. Creates provision_account(), a SECURITY DEFINER function that wraps
+-- 3. Creates provision_account(), a SECURITY DEFINER function that wraps
 --    the entire provisioning sequence in a single database transaction.
 --    provisioned_at is written last, so a failure at any earlier step leaves
 --    it NULL and the user is correctly routed back to /onboarding on next
 --    login.
 --
--- 3. Makes each step idempotent (ON CONFLICT DO NOTHING / DO UPDATE) so
+-- 4. Makes each step idempotent (ON CONFLICT with explicit targets) so
 --    that a retry after a network error or partial commit does not create
 --    duplicate rows.
 --
--- No existing data is affected: wallets currently has 0 rows (verified by
--- live audit at migration design time).
+-- No existing data is affected: wallets and organizations currently have 0
+-- rows (verified by live audit at migration design time).
 -- ---------------------------------------------------------------------------
 
 
 -- -------------------------------------------------------------------------
--- 1. Enforce one wallet per provisioned profile
+-- 1. Enforce one organization per owner
+-- -------------------------------------------------------------------------
+
+alter table "public"."organizations"
+  add constraint "organizations_owner_id_unique" unique ("owner_id");
+
+
+-- -------------------------------------------------------------------------
+-- 2. Enforce one wallet per provisioned profile
 -- -------------------------------------------------------------------------
 
 alter table "public"."wallets"
@@ -37,7 +50,7 @@ alter table "public"."wallets"
 
 
 -- -------------------------------------------------------------------------
--- 2. provision_account — transactional account-opening
+-- 3. provision_account — transactional account-opening
 --
 -- All parameters that are optional for individual accounts are DEFAULT NULL;
 -- organization-specific fields are only inserted when p_org_name IS NOT NULL.
@@ -99,27 +112,25 @@ begin
 
   -- ------------------------------------------------------------------
   -- Step 2: Organization (non-individual investor types only)
+  --
+  -- ON CONFLICT (owner_id) DO UPDATE re-applies the submitted fields on
+  -- retry so a re-submitted form always reflects the latest data.
   -- ------------------------------------------------------------------
   if p_org_name is not null then
-    -- Insert a new organization row; if the owner already has one (retry),
-    -- update its fields to reflect the latest submission.
     insert into organizations
       (owner_id, name, role, website, industry, country, organization_size, aum_range)
     values
       (v_user_id, p_org_name, p_org_role, p_org_website, p_org_industry,
        p_org_country, p_org_size, p_aum_range)
-    on conflict do nothing
+    on conflict (owner_id) do update set
+      name              = excluded.name,
+      role              = excluded.role,
+      website           = excluded.website,
+      industry          = excluded.industry,
+      country           = excluded.country,
+      organization_size = excluded.organization_size,
+      aum_range         = excluded.aum_range
     returning id into v_org_id;
-
-    -- If the row already existed (ON CONFLICT suppressed the insert),
-    -- fetch the existing id.
-    if v_org_id is null then
-      select id into v_org_id
-        from organizations
-       where owner_id = v_user_id
-       order by created_at
-       limit 1;
-    end if;
   end if;
 
   -- ------------------------------------------------------------------
@@ -187,7 +198,7 @@ end;
 $$;
 
 -- Only the signed-in user's session should call this — not anon, not the
--- service role (which uses the admin client directly).
+-- service role (which uses the admin client directly when needed).
 revoke all   on function public.provision_account(
   text, text, text, text, text, timestamptz,
   text, text, text, text,

@@ -18,6 +18,10 @@ export type ProvisioningResult = { readonly ok: true } | { readonly ok: false; r
  * the user can only provision their own account.
  */
 export async function submitProvisioning(input: ProvisioningPayload): Promise<ProvisioningResult> {
+  // requireUser() ensures only authenticated sessions reach the DB call.
+  // provision_account() independently verifies auth.uid() server-side, but
+  // calling requireUser() here gives a clear, early error message and avoids
+  // the RPC round-trip for truly unauthenticated requests.
   await requireUser();
 
   const parsed = provisioningPayloadSchema.safeParse(input);
