@@ -76,14 +76,13 @@ export function IndividualProfileStep({ data, onNext, onBack }: IndividualProfil
       </div>
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-        <Field>
+        <Field className="sm:col-span-2">
           <Label htmlFor="primary-objective">Primary objective</Label>
           <Input
             id="primary-objective"
             value={primaryObjective}
             onChange={(event) => setPrimaryObjective(event.target.value)}
             placeholder="e.g. Long-term capital growth"
-            className="col-span-2"
           />
         </Field>
 
