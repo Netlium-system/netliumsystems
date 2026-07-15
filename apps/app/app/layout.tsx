@@ -11,6 +11,7 @@ export const metadata: Metadata = {
 export const dynamic = "force-dynamic";
 
 const fontVariables: CSSProperties & Record<"--font-inter-sans" | "--font-ibm-plex-mono", string> = {
+  // Use local font stacks so builds do not depend on external Google Fonts requests.
   "--font-inter-sans": "Inter, ui-sans-serif, system-ui, sans-serif",
   "--font-ibm-plex-mono": '"IBM Plex Mono", ui-monospace, "SFMono-Regular", monospace'
 };

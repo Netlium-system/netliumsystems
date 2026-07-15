@@ -3,7 +3,6 @@ import { onboardingSteps } from "../wizard-steps";
 
 export interface OnboardingMobileProgressProps {
   readonly currentStepKey: OnboardingStepKey;
-  readonly completedStepKeys: readonly string[];
 }
 
 export function OnboardingMobileProgress({ currentStepKey }: OnboardingMobileProgressProps) {
