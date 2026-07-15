@@ -9,7 +9,7 @@ import { submitProvisioning, type ProvisioningResult } from "../actions";
 
 const provisioningItems = [
   "Secure identity established",
-  "Netlium Wallet activated",
+  "Neptlium Wallet activated",
   "Portfolio initialized",
   "Security policies applied",
   "Compliance profile registered",
@@ -76,9 +76,9 @@ export function ProvisioningStep({ data }: ProvisioningStepProps) {
 
   return (
     <div className="flex flex-col gap-6">
-      <div className="space-y-1 text-center">
-        <h1 className="text-h4 font-semibold tracking-tight text-text-warm">Provisioning</h1>
-        <p className="text-body-sm text-text-secondary">Preparing your institutional environment.</p>
+      <div className="space-y-1">
+        <h2 className="text-h4 font-semibold tracking-tight text-text-primary">Environment activation</h2>
+        <p className="text-body-sm text-text-secondary">Preparing your institutional operating environment.</p>
       </div>
 
       <ul className="flex flex-col gap-3">
@@ -91,7 +91,7 @@ export function ProvisioningStep({ data }: ProvisioningStepProps) {
               style={{ opacity: shown ? 1 : 0 }}
             >
               {shown ? (
-                <Check className="size-4 shrink-0 text-accent-emerald" aria-hidden="true" />
+                <Check className="size-4 shrink-0 text-success" aria-hidden="true" />
               ) : (
                 <span className="size-4 shrink-0" aria-hidden="true" />
               )}
@@ -121,8 +121,8 @@ export function ProvisioningStep({ data }: ProvisioningStepProps) {
       )}
 
       {!failed && (
-        <p className="text-center text-body-sm text-text-muted">
-          {revealComplete ? "Finalizing account" : "Provisioning infrastructure"}
+        <p className="text-body-sm text-text-muted">
+          {revealComplete ? "Finalizing account" : "Activating environment"}
         </p>
       )}
     </div>

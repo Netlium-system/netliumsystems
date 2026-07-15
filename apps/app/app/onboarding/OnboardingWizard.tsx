@@ -2,11 +2,10 @@
 
 import { useReducer } from "react";
 import { AnimatePresence } from "framer-motion";
-import { Stepper } from "@netlium/ui";
 import { isOrganizationPurpose, type ProvisioningPayload } from "@netlium/lib";
 import { StepTransition } from "../(auth)/components/StepTransition";
-import { AuthCard } from "../(auth)/components/AuthCard";
-import { NetliumMark } from "../(auth)/components/NetliumMark";
+import { OnboardingShell } from "./components/OnboardingShell";
+import { OnboardingPanel } from "./components/OnboardingPanel";
 import { onboardingSteps } from "./wizard-steps";
 import { initialWizardState, wizardReducer } from "./wizardReducer";
 import { IdentityStep } from "./steps/IdentityStep";
@@ -31,15 +30,11 @@ export function OnboardingWizard() {
   }
 
   return (
-    <div className="flex flex-col items-center gap-10">
-      <NetliumMark size={28} />
-      <Stepper
-        steps={onboardingSteps}
-        currentStepKey={currentStep.key}
-        completedStepKeys={completedStepKeys}
-        className="w-full max-w-xl"
-      />
-      <AuthCard size="wide">
+    <OnboardingShell
+      currentStepKey={currentStep.key}
+      completedStepKeys={completedStepKeys}
+    >
+      <OnboardingPanel>
         <AnimatePresence mode="wait" initial={false}>
           <StepTransition key={currentStep.key} stepKey={currentStep.key}>
             {currentStep.key === "identity" && <IdentityStep data={state.data} onNext={handleNext} />}
@@ -55,7 +50,7 @@ export function OnboardingWizard() {
             {currentStep.key === "provisioning" && <ProvisioningStep data={state.data} />}
           </StepTransition>
         </AnimatePresence>
-      </AuthCard>
-    </div>
+      </OnboardingPanel>
+    </OnboardingShell>
   );
 }

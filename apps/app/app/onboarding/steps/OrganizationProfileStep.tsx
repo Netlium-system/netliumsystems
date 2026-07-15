@@ -58,91 +58,102 @@ export function OrganizationProfileStep({ data, onNext, onBack }: OrganizationPr
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-6">
-      <div className="space-y-1 text-center">
-        <h1 className="text-h4 font-semibold tracking-tight text-text-warm">Organization Profile</h1>
-        <p className="text-body-sm text-text-secondary">Establish the identity behind this account.</p>
+      <div className="space-y-1">
+        <h2 className="text-h4 font-semibold tracking-tight text-text-primary">Organization profile</h2>
+        <p className="text-body-sm text-text-secondary">Establish the organization operating this account.</p>
       </div>
 
-      <Field>
-        <Label htmlFor="company-name">Company name</Label>
-        <Input
-          id="company-name"
-          value={companyName}
-          onChange={(event) => setCompanyName(event.target.value)}
-          placeholder="Netlium Capital LLC"
-        />
-      </Field>
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+        <Field className="sm:col-span-2">
+          <Label htmlFor="company-name">Company name</Label>
+          <Input
+            id="company-name"
+            value={companyName}
+            onChange={(event) => setCompanyName(event.target.value)}
+            autoComplete="organization"
+            placeholder="Acme Capital LLC"
+          />
+        </Field>
 
-      <Field>
-        <Label htmlFor="role">Your role</Label>
-        <Input
-          id="role"
-          value={role}
-          onChange={(event) => setRole(event.target.value)}
-          placeholder="e.g. Chief Financial Officer"
-        />
-      </Field>
+        <Field>
+          <Label htmlFor="role">Your role</Label>
+          <Input
+            id="role"
+            value={role}
+            onChange={(event) => setRole(event.target.value)}
+            autoComplete="organization-title"
+            placeholder="e.g. Chief Financial Officer"
+          />
+        </Field>
 
-      <Field>
-        <Label htmlFor="website">Website</Label>
-        <Input
-          id="website"
-          type="url"
-          value={website}
-          onChange={(event) => setWebsite(event.target.value)}
-          placeholder="https://"
-        />
-        <FieldHint>Optional.</FieldHint>
-      </Field>
+        <Field>
+          <Label htmlFor="website">Website</Label>
+          <Input
+            id="website"
+            type="url"
+            value={website}
+            onChange={(event) => setWebsite(event.target.value)}
+            autoComplete="url"
+            placeholder="https://"
+          />
+          <FieldHint>Optional.</FieldHint>
+        </Field>
 
-      <Field>
-        <Label htmlFor="industry">Industry</Label>
-        <Input
-          id="industry"
-          value={industry}
-          onChange={(event) => setIndustry(event.target.value)}
-          placeholder="e.g. Asset Management"
-        />
-      </Field>
+        <Field>
+          <Label htmlFor="industry">Industry</Label>
+          <Input
+            id="industry"
+            value={industry}
+            onChange={(event) => setIndustry(event.target.value)}
+            placeholder="e.g. Asset Management"
+          />
+        </Field>
 
-      <Field>
-        <Label htmlFor="country">Country</Label>
-        <Input id="country" value={country} onChange={(event) => setCountry(event.target.value)} placeholder="United States" />
-      </Field>
+        <Field>
+          <Label htmlFor="country">Country</Label>
+          <Input
+            id="country"
+            value={country}
+            onChange={(event) => setCountry(event.target.value)}
+            autoComplete="country-name"
+            placeholder="United States"
+          />
+        </Field>
 
-      <Field>
-        <Label htmlFor="organization-size">Organization size</Label>
-        <Select value={organizationSize} onValueChange={setOrganizationSize}>
-          <SelectTrigger id="organization-size">
-            <SelectValue placeholder="Select organization size" />
-          </SelectTrigger>
-          <SelectContent>
-            {organizationSizes.map((size) => (
-              <SelectItem key={size} value={size}>
-                {size} employees
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-      </Field>
+        <Field>
+          <Label htmlFor="organization-size">Organization size</Label>
+          <Select value={organizationSize} onValueChange={setOrganizationSize}>
+            <SelectTrigger id="organization-size">
+              <SelectValue placeholder="Select organization size" />
+            </SelectTrigger>
+            <SelectContent>
+              {organizationSizes.map((size) => (
+                <SelectItem key={size} value={size}>
+                  {size} employees
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </Field>
 
-      <Field>
-        <Label htmlFor="aum-range">Assets under management</Label>
-        <Input
-          id="aum-range"
-          value={aumRange}
-          onChange={(event) => setAumRange(event.target.value)}
-          placeholder="e.g. $50M–$250M"
-        />
-        <FieldHint>Optional.</FieldHint>
-        <FieldError>{error}</FieldError>
-      </Field>
+        <Field className="sm:col-span-2">
+          <Label htmlFor="aum-range">Assets under management</Label>
+          <Input
+            id="aum-range"
+            value={aumRange}
+            onChange={(event) => setAumRange(event.target.value)}
+            placeholder="e.g. $50M–$250M"
+          />
+          <FieldHint>Optional.</FieldHint>
+          <FieldError>{error}</FieldError>
+        </Field>
+      </div>
 
-      <div className="flex gap-3">
-        <Button type="button" variant="outline" size="lg" className="flex-1" onClick={onBack}>
+      <div className="flex flex-col-reverse gap-3 sm:flex-row sm:justify-end pt-2">
+        <Button type="button" variant="outline" size="lg" className="w-full sm:w-auto sm:min-w-24" onClick={onBack}>
           Back
         </Button>
-        <Button type="submit" variant="accent" size="lg" className="flex-1">
+        <Button type="submit" variant="accent" size="lg" className="w-full sm:w-auto sm:min-w-32">
           Continue
         </Button>
       </div>

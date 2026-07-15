@@ -17,8 +17,8 @@ const ibmPlexMono = IBM_Plex_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Netlium Dashboard | Institutional Capital Operations",
-  description: "Institutional capital operations dashboard"
+  title: "Neptlium | Institutional Capital Operating System",
+  description: "Institutional capital operations platform"
 };
 
 export default function RootLayout({

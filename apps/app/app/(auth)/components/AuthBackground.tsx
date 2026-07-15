@@ -9,7 +9,7 @@ export function AuthBackground() {
         className="absolute inset-0"
         style={{
           background:
-            "radial-gradient(circle at 50% 0%, color-mix(in oklab, var(--color-accent-emerald) 3%, transparent), transparent 60%)"
+            "radial-gradient(circle at 50% 0%, color-mix(in oklab, var(--color-accent-primary) 3%, transparent), transparent 60%)"
         }}
       />
       <div

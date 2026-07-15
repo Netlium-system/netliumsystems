@@ -23,8 +23,8 @@ function resolveStatus(step: StepperStep, currentStepKey: string, completedStepK
 
 const nodeClasses: Record<StepStatus, string> = {
   upcoming: "border-border-default text-text-muted",
-  current: "border-accent-emerald text-accent-emerald",
-  completed: "border-accent-emerald bg-accent-emerald/12 text-accent-emerald"
+  current: "border-accent-primary text-accent-primary",
+  completed: "border-accent-primary bg-accent-primary/12 text-accent-primary"
 };
 
 const labelClasses: Record<StepStatus, string> = {
@@ -65,7 +65,7 @@ export function Stepper({ steps, currentStepKey, completedStepKeys, className }:
               <div
                 className={cn(
                   "mx-2 h-px flex-1 translate-y-[-14px] bg-border-default transition-colors duration-200 ease-out",
-                  status === "completed" && "bg-accent-emerald/40"
+                  status === "completed" && "bg-accent-primary/40"
                 )}
                 aria-hidden="true"
               />

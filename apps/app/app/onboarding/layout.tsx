@@ -1,7 +1,6 @@
 import type { ReactNode } from "react";
 import { redirect } from "next/navigation";
 import { getCurrentProfile, requireUser } from "@/lib/auth";
-import { AuthShell } from "../(auth)/components/AuthShell";
 
 export default async function OnboardingLayout({ children }: { readonly children: ReactNode }) {
   await requireUser();
@@ -11,5 +10,5 @@ export default async function OnboardingLayout({ children }: { readonly children
     redirect("/dashboard");
   }
 
-  return <AuthShell>{children}</AuthShell>;
+  return <>{children}</>;
 }

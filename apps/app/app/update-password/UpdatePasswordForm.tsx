@@ -7,10 +7,10 @@ import { updatePassword } from "../(auth)/actions";
 import { initialAuthActionState } from "../(auth)/schema";
 import { AuthShell } from "../(auth)/components/AuthShell";
 import { AuthCard } from "../(auth)/components/AuthCard";
-import { NetliumMark } from "../(auth)/components/NetliumMark";
+import { NeptliumMark } from "../(auth)/components/NeptliumMark";
 
 const inputClass =
-  "h-10 border-[color:var(--color-border-whisper)] bg-surface-1 transition-[border-color,box-shadow] focus:border-accent-emerald focus:shadow-[var(--shadow-focus-ring-emerald)]";
+  "h-10 border-[color:var(--color-border-whisper)] bg-surface-1 transition-[border-color,box-shadow] focus:border-accent-primary focus:shadow-[var(--shadow-focus-ring)]";
 const ctaClass = "h-11 w-full";
 
 export function UpdatePasswordForm() {
@@ -27,12 +27,12 @@ export function UpdatePasswordForm() {
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     if (password.length < 8) {
       event.preventDefault();
-      setPasswordError("Secure credential must be at least 8 characters.");
+      setPasswordError("Password must be at least 8 characters.");
       return;
     }
     if (password !== confirmPassword) {
       event.preventDefault();
-      setPasswordError("Secure credentials do not match.");
+      setPasswordError("Passwords do not match.");
       return;
     }
     setPasswordError(null);
@@ -43,19 +43,19 @@ export function UpdatePasswordForm() {
       <AuthCard>
         <form action={formAction} onSubmit={handleSubmit} className="flex flex-col gap-6">
           <div className="flex flex-col items-center gap-3 text-center">
-            <NetliumMark size={36} />
+            <NeptliumMark size={36} />
             <div className="space-y-1">
-              <h1 className="text-h4 font-semibold leading-tight tracking-tight text-text-warm">
-                Set a new credential
+              <h1 className="text-h4 font-semibold leading-tight tracking-tight text-text-primary">
+                Set a new password
               </h1>
               <p className="text-body-sm text-text-secondary">
-                Choose a new secure credential for your Netlium workspace.
+                Choose a new password for your Neptlium Account.
               </p>
             </div>
           </div>
 
           <Field>
-            <Label htmlFor="update-password">New secure credential</Label>
+            <Label htmlFor="update-password">New password</Label>
             <Input
               id="update-password"
               name="password"
@@ -76,7 +76,7 @@ export function UpdatePasswordForm() {
           </Field>
 
           <Field>
-            <Label htmlFor="update-confirm-password">Confirm secure credential</Label>
+            <Label htmlFor="update-confirm-password">Confirm new password</Label>
             <Input
               id="update-confirm-password"
               name="confirmPassword"
@@ -94,7 +94,7 @@ export function UpdatePasswordForm() {
           </Field>
 
           <Button type="submit" variant="accent" className={ctaClass} loading={isPending}>
-            Update credential
+            Update password
           </Button>
         </form>
       </AuthCard>

@@ -47,7 +47,7 @@ const investorTypeOptions: readonly InvestorTypeOption[] = [
   {
     value: "capital_partner",
     label: "Capital Partner",
-    description: "Allocating alongside or into Netlium-connected strategies.",
+    description: "Allocating alongside or into Neptlium-connected strategies.",
     icon: <Users className="size-4" aria-hidden="true" />
   }
 ];
@@ -75,9 +75,9 @@ export function PurposeStep({ data, onNext }: PurposeStepProps) {
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-6">
-      <div className="space-y-1 text-center">
-        <h1 className="text-h4 font-semibold tracking-tight text-text-warm">Purpose</h1>
-        <p className="text-body-sm text-text-secondary">Tell us how you intend to use Netlium.</p>
+      <div className="space-y-1">
+        <h2 className="text-h4 font-semibold tracking-tight text-text-primary">Account mandate</h2>
+        <p className="text-body-sm text-text-secondary">Define how this Neptlium Account will be used.</p>
       </div>
 
       <Field>
@@ -101,20 +101,22 @@ export function PurposeStep({ data, onNext }: PurposeStepProps) {
       </Field>
 
       <Field>
-        <Label htmlFor="purpose">Purpose of this account</Label>
+        <Label htmlFor="purpose">Mandate description</Label>
         <Textarea
           id="purpose"
           value={purpose}
           onChange={(event) => setPurpose(event.target.value)}
-          placeholder="Describe how you plan to deploy capital through Netlium."
+          placeholder="Describe how you plan to deploy capital through Neptlium."
           rows={3}
         />
         <FieldError>{error}</FieldError>
       </Field>
 
-      <Button type="submit" variant="accent" size="lg" className="w-full">
-        Continue
-      </Button>
+      <div className="flex justify-end pt-2">
+        <Button type="submit" variant="accent" size="lg" className="w-full sm:w-auto sm:min-w-32">
+          Continue
+        </Button>
+      </div>
     </form>
   );
 }
