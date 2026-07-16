@@ -2,68 +2,89 @@
 
 import { createSupabaseAdminClient } from "@netlium/lib/supabase/admin";
 import { createSupabaseServerClient } from "@netlium/lib/supabase/server";
-import { isOrganizationPurpose, provisioningPayloadSchema, type ProvisioningPayload } from "@netlium/lib";
+import { onboardingPayloadSchema, type ProvisioningPayload } from "@netlium/lib";
 import { requireUser } from "@/lib/auth";
+
+export interface OnboardingDraft {
+  readonly data: Partial<ProvisioningPayload>;
+  readonly stepIndex: number;
+}
 
 export type ProvisioningResult = { readonly ok: true } | { readonly ok: false; readonly error: string };
 
-/**
- * Finalizes account opening: assigns the default role, persists the
- * collected profile (branching into `organizations` for every non-individual
- * Purpose, so that identity isn't duplicated across profile rows), then
- * provisions the portfolio and wallet the Provisioning step's copy already
- * promises exist. Role assignment happens first — provisioned_at only
- * becomes non-null once a role exists, since supabase-js has no cross-table
- * transaction primitive and a completed provisioning state should never
- * imply a missing role.
- */
+function unavailable(message: string): ProvisioningResult {
+  return { ok: false, error: message };
+}
+
+export async function getOnboardingDraft(): Promise<OnboardingDraft> {
+  const user = await requireUser();
+  const supabase = await createSupabaseServerClient();
+  const { data } = await supabase
+    .from("onboarding_drafts")
+    .select("data, step_index")
+    .eq("user_id", user.id)
+    .maybeSingle();
+
+  return {
+    data: onboardingPayloadSchema.partial().catch({}).parse(data?.data ?? {}),
+    stepIndex: Math.min(Math.max(data?.step_index ?? 0, 0), 5)
+  };
+}
+
+export async function saveOnboardingDraft(draft: OnboardingDraft): Promise<void> {
+  const user = await requireUser();
+  const parsed = onboardingPayloadSchema.partial().safeParse(draft.data);
+  if (!parsed.success || draft.stepIndex < 0 || draft.stepIndex > 5) return;
+
+  const supabase = await createSupabaseServerClient();
+  await supabase.from("onboarding_drafts").upsert(
+    { user_id: user.id, data: parsed.data, step_index: draft.stepIndex, updated_at: new Date().toISOString() },
+    { onConflict: "user_id" }
+  );
+}
+
 export async function submitProvisioning(input: ProvisioningPayload): Promise<ProvisioningResult> {
   const user = await requireUser();
-
-  const parsed = provisioningPayloadSchema.safeParse(input);
-  if (!parsed.success) {
-    return { ok: false, error: "Some information from a previous step is missing or invalid." };
-  }
+  const parsed = onboardingPayloadSchema.safeParse(input);
+  if (!parsed.success) return unavailable("Review the required information and try again.");
 
   const data = parsed.data;
   const admin = createSupabaseAdminClient();
+  const supabase = await createSupabaseServerClient();
+  const now = new Date().toISOString();
 
-  const { data: existingRole } = await admin
+  const { data: currentProfile, error: profileLookupError } = await admin
+    .from("profiles")
+    .select("organization_id")
+    .eq("id", user.id)
+    .maybeSingle();
+  if (profileLookupError) return unavailable("Your workspace is temporarily unavailable. Please retry.");
+
+  const { data: existingRole, error: roleLookupError } = await admin
     .from("user_roles")
     .select("id")
     .eq("user_id", user.id)
     .maybeSingle();
-
+  if (roleLookupError) return unavailable("Unable to provision account access. Please try again.");
   if (!existingRole) {
-    const { error: roleError } = await admin.from("user_roles").insert({ user_id: user.id, role: "user" });
-    if (roleError) {
-      return { ok: false, error: "Unable to provision account access. Please try again." };
-    }
+    const { error } = await admin.from("user_roles").insert({ user_id: user.id, role: "user" });
+    if (error) return unavailable("Unable to provision account access. Please try again.");
   }
 
-  const supabase = await createSupabaseServerClient();
-  const now = new Date().toISOString();
-
-  let organizationId: string | null = null;
-  if (isOrganizationPurpose(data.investorType)) {
-    const { data: organization, error: organizationError } = await supabase
+  let organizationId = currentProfile?.organization_id ?? null;
+  if (data.organizationName && !organizationId) {
+    const { data: organization, error } = await admin
       .from("organizations")
       .insert({
         owner_id: user.id,
-        name: data.companyName,
-        role: data.role,
+        name: data.organizationName,
+        role: data.companyRole || null,
         website: data.website || null,
-        industry: data.industry,
-        country: data.country,
-        organization_size: data.organizationSize,
-        aum_range: data.aumRange || null
+        country: data.country
       })
       .select("id")
       .single();
-
-    if (organizationError || !organization) {
-      return { ok: false, error: "Unable to save your organization profile. Please try again." };
-    }
+    if (error || !organization) return unavailable("Unable to save your organization profile. Please try again.");
     organizationId = organization.id;
   }
 
@@ -72,56 +93,53 @@ export async function submitProvisioning(input: ProvisioningPayload): Promise<Pr
     .update({
       first_name: data.firstName,
       last_name: data.lastName,
-      full_name: `${data.firstName} ${data.lastName}`.trim(),
-      country: data.residenceCountry,
+      full_name: `${data.firstName} ${data.lastName}`,
+      country: data.country,
       investor_type: data.investorType,
-      purpose: data.purpose,
+      purpose: data.investorType,
       organization_id: organizationId,
-      primary_objective: data.primaryObjective ?? null,
-      investment_experience: data.investmentExperience ?? null,
-      preferred_currency: data.preferredCurrency ?? null,
-      risk_preference: data.riskPreference ?? null,
       compliance_status: "active",
       compliance_acknowledged_at: now,
       provisioned_at: now
     })
     .eq("id", user.id);
+  if (profileError) return unavailable("Unable to save your profile. Please try again.");
 
-  if (profileError) {
-    return { ok: false, error: "Unable to finalize your account. Please try again." };
-  }
-
-  const { data: existingPortfolio } = await admin
+  const { data: portfolio, error: portfolioError } = await admin
     .from("investment_portfolios")
+    .upsert({ profile_id: user.id }, { onConflict: "profile_id" })
+    .select("id")
+    .single();
+  if (portfolioError || !portfolio) return unavailable("Unable to provision your portfolio. Please try again.");
+
+  const { data: existingWallet, error: walletLookupError } = await admin
+    .from("wallets")
     .select("id")
     .eq("profile_id", user.id)
     .maybeSingle();
-
-  const portfolioId =
-    existingPortfolio?.id ??
-    (
-      await admin
-        .from("investment_portfolios")
-        .insert({ profile_id: user.id })
-        .select("id")
-        .single()
-    ).data?.id;
-
-  if (!portfolioId) {
-    return { ok: false, error: "Unable to provision your portfolio. Please try again." };
-  }
-
-  const { data: existingWallet } = await admin.from("wallets").select("id").eq("profile_id", user.id).maybeSingle();
-
+  if (walletLookupError) return unavailable("Unable to provision your wallet. Please try again.");
   if (!existingWallet) {
-    const { error: walletError } = await admin
+    const { error } = await admin
       .from("wallets")
-      .insert({ portfolio_id: portfolioId, profile_id: user.id, provider: "internal" });
-
-    if (walletError) {
-      return { ok: false, error: "Unable to provision your wallet. Please try again." };
-    }
+      .insert({ portfolio_id: portfolio.id, profile_id: user.id, provider: "internal" });
+    if (error) return unavailable("Unable to provision your wallet. Please try again.");
   }
+
+  const { error: metadataError } = await admin.auth.admin.updateUserById(user.id, {
+    user_metadata: {
+      ...user.user_metadata,
+      onboarding_completed: true,
+      investor_type: data.investorType,
+      country: data.country
+    }
+  });
+  if (metadataError) return unavailable("Unable to finalize account setup. Please try again.");
+
+  await admin.from("audit_logs").insert([
+    { user_id: user.id, action: "onboarding.completed", table_name: "profiles", record_id: user.id, metadata: { investor_type: data.investorType } },
+    { user_id: user.id, action: "workspace.provisioned", table_name: "investment_portfolios", record_id: portfolio.id, metadata: { security_choices: data.securityChoices } }
+  ]);
+  await admin.from("onboarding_drafts").delete().eq("user_id", user.id);
 
   return { ok: true };
 }

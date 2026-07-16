@@ -2,7 +2,7 @@ import { requireUser } from "@/lib/auth";
 import { OnboardingWizard } from "./OnboardingWizard";
 
 export default async function OnboardingPage() {
-  await requireUser();
+  const user = await requireUser();
 
-  return <OnboardingWizard />;
+  return <OnboardingWizard email={user.email ?? "Verified account"} />;
 }
