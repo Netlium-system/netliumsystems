@@ -19,7 +19,7 @@ export const onboardingPayloadSchema = z.object({
   website: z.union([z.string().trim().url("Enter a valid website URL."), z.literal("")]).optional(),
   companyRole: z.string().trim().max(120).optional(),
   securityChoices: z.array(z.enum(securityOptions)),
-  acceptedTerms: z.literal(true, "You must accept the Terms of Service and Privacy Policy.")
+  acceptedTerms: z.literal(true, { message: "You must accept the Terms of Service and Privacy Policy." })
 });
 
 export type ProvisioningPayload = z.infer<typeof onboardingPayloadSchema>;

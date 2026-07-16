@@ -2,10 +2,9 @@
 
 import { useEffect, useState, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
-import { BriefcaseBusiness, Building2, Check, Landmark, ShieldCheck, UserRound, UsersRound, WalletCards } from "lucide-react";
+import { BriefcaseBusiness, Building2, Check, Landmark, UserRound, WalletCards } from "lucide-react";
 import { Button, Field, FieldError, Input, Label } from "@netlium/ui";
 import {
-  investorTypes,
   onboardingPayloadSchema,
   securityOptions,
   type InvestorType,

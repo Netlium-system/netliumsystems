@@ -26,7 +26,7 @@ export async function getOnboardingDraft(): Promise<OnboardingDraft> {
     .maybeSingle();
 
   return {
-    data: onboardingPayloadSchema.partial().catch({}).parse(data?.data ?? {}),
+    data: onboardingPayloadSchema.partial().catch({}).parse(data?.data ?? {}) as Partial<ProvisioningPayload>,
     stepIndex: Math.min(Math.max(data?.step_index ?? 0, 0), 5)
   };
 }
