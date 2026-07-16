@@ -10,20 +10,36 @@ export interface AuthShellProps {
   readonly children: ReactNode;
 }
 
+/**
+ * Auth shell layout.
+ *
+ * - Neptlium mark top-left, no text beside it.
+ * - Content column: left-aligned, ~560px max-width, responsive padding.
+ * - Trust footer at the bottom.
+ * - Form sits directly on the background — no outer card boundary.
+ */
 export function AuthShell({ children }: AuthShellProps) {
   return (
     <MotionConfig reducedMotion="user">
-      <div className="relative isolate flex min-h-dvh flex-col items-center justify-start px-6 py-16 sm:py-20">
+      <div className="relative isolate flex min-h-dvh flex-col px-6 py-10 sm:px-10">
         <AuthBackground />
-        <div className="flex w-full flex-col items-center gap-12">
-          <div className="flex items-center gap-2.5">
-            <NeptliumMark size={22} />
-            <span className="text-body-sm font-semibold tracking-tight text-text-secondary">Neptlium</span>
-          </div>
-          <div className="w-full">{children}</div>
+
+        {/* Top-left mark */}
+        <div className="mb-12 flex w-full max-w-[560px] self-start sm:mb-14">
+          <NeptliumMark size={36} />
+        </div>
+
+        {/* Content */}
+        <div className="flex flex-1 flex-col">
+          <div className="w-full max-w-[560px]">{children}</div>
+        </div>
+
+        {/* Trust footer */}
+        <div className="mt-12 flex w-full max-w-[560px]">
           <TrustFooter />
         </div>
       </div>
     </MotionConfig>
   );
 }
+

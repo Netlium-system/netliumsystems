@@ -1,32 +1,44 @@
 "use client";
 
 import { useActionState, useState } from "react";
-import type { FormEvent, KeyboardEvent } from "react";
+import type { FormEvent } from "react";
 import Link from "next/link";
-import { MailCheck } from "lucide-react";
+import { Mail, ArrowLeft, MailCheck } from "lucide-react";
 import { Button, Field, FieldError, FieldHint, Input, Label } from "@netlium/ui";
 import { signup } from "../actions";
 import { initialAuthActionState } from "../schema";
 import { AuthShell } from "../components/AuthShell";
-import { AuthCard } from "../components/AuthCard";
-import { NeptliumMark } from "../components/NeptliumMark";
+
+/** Basic RFC-5322-ish email pattern for client-side step validation */
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 const inputClass =
-  "h-10 border-[color:var(--color-border-whisper)] bg-surface-1 transition-[border-color,box-shadow] focus:border-accent-primary focus:shadow-[var(--shadow-focus-ring)]";
-const ctaClass = "h-11 w-full";
+  "h-12 rounded-md border-[color:var(--color-border-default)] bg-[color:var(--color-surface-1)] pl-10 transition-[border-color,box-shadow] focus:border-[color:var(--color-border-focus)] focus:shadow-[var(--shadow-focus-ring)]";
+
+const ctaClass = "h-12 w-full rounded-full text-[15px] font-semibold";
+
+type Step = "email" | "password";
 
 export function SignupForm() {
   const [state, formAction, isPending] = useActionState(signup, initialAuthActionState);
+  const [step, setStep] = useState<Step>("email");
+  const [email, setEmail] = useState("");
+  const [emailError, setEmailError] = useState<string | null>(null);
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [passwordError, setPasswordError] = useState<string | null>(null);
-  const [capsLock, setCapsLock] = useState(false);
 
-  function trackCapsLock(event: KeyboardEvent<HTMLInputElement>) {
-    setCapsLock(event.getModifierState?.("CapsLock") ?? false);
+  function handleEmailContinue(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    if (!EMAIL_RE.test(email)) {
+      setEmailError("Please enter a valid email address.");
+      return;
+    }
+    setEmailError(null);
+    setStep("password");
   }
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  function handlePasswordSubmit(event: FormEvent<HTMLFormElement>) {
     if (password.length < 8) {
       event.preventDefault();
       setPasswordError("Password must be at least 8 characters.");
@@ -40,56 +52,149 @@ export function SignupForm() {
     setPasswordError(null);
   }
 
+  /* ── Email sent / verify screen ── */
   if (state.success) {
     return (
       <AuthShell>
-        <AuthCard className="flex flex-col items-center gap-4 py-12 text-center">
-          <span className="flex size-10 items-center justify-center rounded-full bg-accent-primary/10 text-accent-primary">
-            <MailCheck className="size-4" aria-hidden="true" />
-          </span>
-          <div className="space-y-2">
-            <h1 className="text-h4 font-semibold tracking-tight text-text-primary">Confirmation email sent</h1>
-            <p className="text-body-sm text-text-secondary text-balance">
-              Follow the link we sent to your email address to activate your Neptlium Account.
-            </p>
+        <button
+          type="button"
+          onClick={() => window.history.back()}
+          className="mb-10 flex items-center gap-2 text-[13px] text-text-muted hover:text-text-secondary"
+        >
+          <ArrowLeft className="size-4" aria-hidden="true" />
+          Back
+        </button>
+
+        <div className="flex flex-col gap-6">
+          <div className="flex size-12 items-center justify-center rounded-full bg-accent-primary/10">
+            <MailCheck className="size-5 text-accent-primary" aria-hidden="true" />
           </div>
-          <Link href="/login" className="text-body-sm font-medium text-accent-primary hover:brightness-110">
-            Return to Sign In
-          </Link>
-        </AuthCard>
+
+          <div className="space-y-1">
+            <h1 className="text-[32px] font-semibold leading-[1.1] tracking-tight text-text-primary">
+              Verify your email
+            </h1>
+            <p className="text-[15px] text-text-muted">
+              We sent a secure verification link to
+            </p>
+            <p className="text-[15px] font-medium text-text-primary">{email}</p>
+          </div>
+
+          <div className="flex flex-col gap-3 pt-2">
+            <Button variant="cta" size="lg" className={ctaClass} href="mailto:">
+              Open email
+            </Button>
+            <Button
+              variant="outline"
+              size="lg"
+              className="h-12 w-full rounded-full text-[15px]"
+              onClick={() => {
+                setEmail("");
+                setPassword("");
+                setConfirmPassword("");
+                setStep("email");
+              }}
+            >
+              Resend verification email
+            </Button>
+            <button
+              type="button"
+              className="pt-1 text-center text-[14px] text-accent-primary hover:brightness-110"
+              onClick={() => {
+                setEmail("");
+                setStep("email");
+              }}
+            >
+              Use a different email
+            </button>
+          </div>
+        </div>
       </AuthShell>
     );
   }
 
-  return (
-    <AuthShell>
-      <AuthCard>
-        <form action={formAction} onSubmit={handleSubmit} className="flex flex-col gap-6">
-          <div className="flex flex-col items-center gap-3 text-center">
-            <NeptliumMark size={36} />
-            <div className="space-y-1">
-              <h1 className="text-h4 font-semibold leading-tight tracking-tight text-text-primary">
-                Create Neptlium Account
-              </h1>
-              <p className="text-body-sm text-text-secondary">
-                Establish your institutional capital workspace.
-              </p>
-            </div>
+  /* ── Step 1: Email ── */
+  if (step === "email") {
+    return (
+      <AuthShell>
+        <div className="flex flex-col gap-8">
+          <div className="space-y-2">
+            <h1 className="text-[36px] font-semibold leading-[1.1] tracking-tight text-text-primary sm:text-[40px]">
+              Create your<br />Neptlium account
+            </h1>
+            <p className="text-[15px] text-text-muted">
+              Enter your email to get started.
+            </p>
           </div>
 
-          <Field>
-            <Label htmlFor="signup-email">Email address</Label>
-            <Input
-              id="signup-email"
-              name="email"
-              type="email"
-              autoFocus
-              autoComplete="email"
-              inputMode="email"
-              placeholder="investor@example.com"
-              className={inputClass}
-            />
-          </Field>
+          <form onSubmit={handleEmailContinue} className="flex flex-col gap-5">
+            <Field>
+              <div className="relative">
+                <Mail
+                  className="pointer-events-none absolute left-3 top-1/2 size-[15px] -translate-y-1/2 text-text-muted"
+                  aria-hidden="true"
+                />
+                <Input
+                  id="signup-email"
+                  name="email"
+                  type="email"
+                  autoFocus
+                  autoComplete="email"
+                  inputMode="email"
+                  placeholder="Enter your email"
+                  value={email}
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                    if (emailError) setEmailError(null);
+                  }}
+                  aria-invalid={Boolean(emailError)}
+                  className={inputClass}
+                />
+              </div>
+              <FieldError>{emailError}</FieldError>
+            </Field>
+
+            <Button type="submit" variant="cta" className={ctaClass}>
+              Continue →
+            </Button>
+          </form>
+
+          <p className="text-center text-[14px] text-text-muted">
+            Already have an account?{" "}
+            <Link href="/login" className="font-medium text-accent-primary hover:brightness-110">
+              Sign in
+            </Link>
+          </p>
+        </div>
+      </AuthShell>
+    );
+  }
+
+  /* ── Step 2: Password ── */
+  return (
+    <AuthShell>
+      <button
+        type="button"
+        onClick={() => setStep("email")}
+        className="mb-10 flex items-center gap-2 text-[13px] text-text-muted hover:text-text-secondary"
+      >
+        <ArrowLeft className="size-4" aria-hidden="true" />
+        Back
+      </button>
+
+      <div className="flex flex-col gap-8">
+        <div className="space-y-2">
+          <h1 className="text-[32px] font-semibold leading-[1.1] tracking-tight text-text-primary">
+            Create your password
+          </h1>
+          <p className="text-[15px] text-text-muted">
+            Signing up as <span className="text-text-secondary">{email}</span>
+          </p>
+        </div>
+
+        <form action={formAction} onSubmit={handlePasswordSubmit} className="flex flex-col gap-5">
+          {/* Hidden email field so the server action receives it */}
+          <input type="hidden" name="email" value={email} />
 
           <Field>
             <Label htmlFor="signup-password">Password</Label>
@@ -97,18 +202,17 @@ export function SignupForm() {
               id="signup-password"
               name="password"
               type="password"
+              autoFocus
               autoComplete="new-password"
               value={password}
-              onChange={(event) => {
-                setPassword(event.target.value);
+              onChange={(e) => {
+                setPassword(e.target.value);
                 if (passwordError) setPasswordError(null);
               }}
-              onKeyUp={trackCapsLock}
               aria-invalid={Boolean(passwordError)}
-              className={inputClass}
+              className="h-12 rounded-md border-[color:var(--color-border-default)] bg-[color:var(--color-surface-1)] transition-[border-color,box-shadow] focus:border-[color:var(--color-border-focus)] focus:shadow-[var(--shadow-focus-ring)]"
             />
-            {capsLock && <FieldHint>Caps Lock is on</FieldHint>}
-            <FieldHint>At least 8 characters.</FieldHint>
+            <FieldHint>8+ characters, 1 uppercase, 1 number, 1 special character</FieldHint>
           </Field>
 
           <Field>
@@ -119,28 +223,22 @@ export function SignupForm() {
               type="password"
               autoComplete="new-password"
               value={confirmPassword}
-              onChange={(event) => {
-                setConfirmPassword(event.target.value);
+              onChange={(e) => {
+                setConfirmPassword(e.target.value);
                 if (passwordError) setPasswordError(null);
               }}
               aria-invalid={Boolean(passwordError)}
-              className={inputClass}
+              className="h-12 rounded-md border-[color:var(--color-border-default)] bg-[color:var(--color-surface-1)] transition-[border-color,box-shadow] focus:border-[color:var(--color-border-focus)] focus:shadow-[var(--shadow-focus-ring)]"
             />
             <FieldError>{passwordError ?? state.error}</FieldError>
           </Field>
 
-          <Button type="submit" variant="accent" className={ctaClass} loading={isPending}>
-            Create Neptlium Account
+          <Button type="submit" variant="cta" className={ctaClass} loading={isPending}>
+            Create account →
           </Button>
-
-          <p className="text-center text-body-sm text-text-secondary">
-            Already have an account?{" "}
-            <Link href="/login" className="font-medium text-accent-primary hover:brightness-110">
-              Sign In
-            </Link>
-          </p>
         </form>
-      </AuthCard>
+      </div>
     </AuthShell>
   );
 }
+

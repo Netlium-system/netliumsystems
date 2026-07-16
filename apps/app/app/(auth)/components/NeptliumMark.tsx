@@ -6,25 +6,45 @@ export interface NeptliumMarkProps {
   readonly className?: string;
 }
 
+/**
+ * Official Neptlium geometric mark.
+ *
+ * Composition: upper-left solid trapezoid, centre circle ring,
+ * lower-right solid trapezoid — blue-to-cyan gradient treatment.
+ * No bounding box or container shape.
+ */
 export function NeptliumMark({ size = 40, animated = false, className }: NeptliumMarkProps) {
   return (
     <span
+      aria-hidden="true"
       className={cn("relative inline-flex shrink-0 items-center justify-center", className)}
-      style={{ width: size, height: size }}
+      style={{ width: size, height: (size * 46) / 54 }}
     >
       <svg
-        viewBox="0 0 40 40"
+        viewBox="0 0 54 46"
         width={size}
-        height={size}
+        height={(size * 46) / 54}
         className="relative"
         style={animated ? { animation: "neptlium-breathe 2.4s var(--motion-ease-in-out) infinite" } : undefined}
         role="img"
         aria-label="Neptlium"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
       >
-        <rect x="1" y="1" width="38" height="38" rx="11" fill="var(--color-surface-3)" />
-        <rect x="1" y="1" width="38" height="38" rx="11" stroke="var(--color-accent-primary)" strokeOpacity="0.32" />
-        <path d="M13 28V12h2.6l9.8 12.2V12H28v16h-2.6L15.6 15.8V28H13Z" fill="var(--color-accent-primary)" />
+        <defs>
+          <linearGradient id="neptlium-mark-gradient" x1="0" y1="0" x2="54" y2="46" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stopColor="#1AA7FF" />
+            <stop offset="100%" stopColor="#0B8CFF" />
+          </linearGradient>
+        </defs>
+        {/* Upper-left trapezoid */}
+        <polygon points="0,0 36,0 28,17 0,17" fill="url(#neptlium-mark-gradient)" />
+        {/* Centre circle ring — overlaps the gap between the two trapezoids */}
+        <circle cx="32" cy="21" r="8" stroke="url(#neptlium-mark-gradient)" strokeWidth="3" />
+        {/* Lower-right trapezoid */}
+        <polygon points="18,29 54,29 54,46 26,46" fill="url(#neptlium-mark-gradient)" />
       </svg>
     </span>
   );
 }
+

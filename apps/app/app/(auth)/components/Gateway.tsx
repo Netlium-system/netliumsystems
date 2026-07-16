@@ -1,6 +1,5 @@
 import { Button } from "@netlium/ui";
 import { AuthShell } from "./AuthShell";
-import { NeptliumMark } from "./NeptliumMark";
 
 /**
  * The application entry point. Deliberately not a card — the spec calls for
@@ -10,27 +9,23 @@ import { NeptliumMark } from "./NeptliumMark";
 export function Gateway() {
   return (
     <AuthShell>
-      <div className="flex flex-col items-center gap-8 text-center">
-        <NeptliumMark size={48} />
+      <div className="flex flex-col gap-8">
         <div className="space-y-3">
-          <p className="text-overline font-semibold uppercase tracking-[0.2em] text-text-muted">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-text-muted">
             Neptlium Systems
           </p>
-          <h1 className="text-hero font-semibold leading-tight tracking-tight text-text-primary text-balance">
-            Institutional Capital Operating System
+          <h1 className="text-[40px] font-semibold leading-[1.1] tracking-tight text-text-primary text-balance sm:text-[48px]">
+            Institutional Capital<br />Operating System
           </h1>
-          <p className="mx-auto max-w-sm text-body-sm text-text-secondary text-balance">
+          <p className="max-w-sm text-[15px] text-text-muted text-balance">
             Secure access to your institutional capital environment.
           </p>
-          <p className="mx-auto max-w-md text-body-sm text-text-muted text-balance">
-            Establish or access a governed environment for portfolio, treasury, wallet, document, and capital operations.
-          </p>
         </div>
-        <div className="flex w-full max-w-xs flex-col gap-3 pt-2">
-          <Button variant="accent" size="lg" href="/signup">
+        <div className="flex w-full max-w-xs flex-col gap-3">
+          <Button variant="cta" size="lg" href="/signup" className="h-12 rounded-full font-semibold">
             Create Neptlium Account
           </Button>
-          <Button variant="outline" size="lg" href="/login">
+          <Button variant="outline" size="lg" href="/login" className="h-12 rounded-full">
             Sign In
           </Button>
         </div>

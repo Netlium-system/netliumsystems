@@ -10,29 +10,29 @@
  */
 @theme {
   /* ---- Surfaces (background hierarchy) ---- */
-  --color-canvas: #071523; /* Institutional Midnight Navy */
-  --color-surface-1: #111f33; /* Graphite Navy — primary cards, widgets, forms, tables */
-  --color-surface-2: #17283e; /* Steel Blue Slate — hover cards, dropdowns, menus */
-  --color-surface-3: #20344d; /* Slate Elevation — modals, popovers, command palette, notifications */
+  --color-canvas: #04070B; /* Institutional Black — primary app canvas */
+  --color-surface-1: #080E16; /* Primary Card — cards, widgets, forms, tables */
+  --color-surface-2: #0B1420; /* Secondary Card — hover cards, dropdowns, menus */
+  --color-surface-3: #0F1E30; /* Elevated — modals, popovers, command palette, notifications */
   --color-surface-floating: var(--color-surface-3);
-  --color-surface-overlay: rgba(7, 21, 35, 0.72);
+  --color-surface-overlay: rgba(2, 3, 4, 0.78);
 
   /* Named component surfaces (semantic aliases onto the hierarchy above) */
-  --color-sidebar: #08121e;
-  --color-topnav: #08121e;
+  --color-sidebar: #030508;
+  --color-topnav: #04070B;
   --color-card: var(--color-surface-1);
   --color-panel: var(--color-surface-1);
   --color-dialog: var(--color-surface-3);
 
   /* ---- Borders ---- */
-  --color-border-hairline: #1a2a3f; /* Divider — section separation, table dividers, nav */
-  --color-border-default: #22354d; /* Soft Border — standard cards, tables, inputs */
-  --color-border-strong: #304b68; /* Strong Border — selected cards, focused controls */
-  --color-border-hover: #304b68;
+  --color-border-hairline: #131C27; /* Divider — section separation, table dividers, nav */
+  --color-border-default: #1D2938; /* Soft Border — standard cards, tables, inputs */
+  --color-border-strong: #30445E; /* Strong Border — selected cards, focused controls */
+  --color-border-hover: #30445E;
   /* Blue interactive borders (accent-primary) */
-  --color-border-interactive: #2e7cf6;
-  --color-border-focus: #2e7cf6;
-  --color-border-selected: #2e7cf6;
+  --color-border-interactive: #168CFF;
+  --color-border-focus: #2E9BFF;
+  --color-border-selected: #0B8CFF;
 
   /* ---- Text hierarchy ---- */
   --color-text-primary: #f7fafc;
@@ -49,16 +49,19 @@
      The one accent used for primary buttons, active navigation, selected
      tabs, radio/checkbox/toggle, focus rings, progress, confirmations.
      Applied product-wide — not restricted to any one surface. */
-  --color-accent-primary: #2e7cf6;
-  --color-accent-primary-hover: #256ce0;
-  --color-accent-primary-pressed: #1d5bc8;
+  --color-accent-primary: #0B8CFF;
+  --color-accent-primary-hover: #168CFF;
+  --color-accent-primary-pressed: #1769F4;
   --color-accent-primary-foreground: #ffffff;
+
+  /* CTA gradient — used exclusively for high-priority actions */
+  --gradient-cta-primary: linear-gradient(90deg, #0B8CFF 0%, #1769F4 62%, #5437FF 100%);
 
   /* Compatibility aliases — retained so legacy `accent-emerald` class
      references in uninspected consumers continue to resolve without breakage.
      Do NOT use these aliases in new or modified code; use accent-primary. */
-  --color-accent-emerald: #2e7cf6; /* compat alias → Neptlium Blue */
-  --color-accent-emerald-strong: #1d5bc8; /* compat alias → pressed state */
+  --color-accent-emerald: #0B8CFF; /* compat alias → Neptlium Blue */
+  --color-accent-emerald-strong: #1769F4; /* compat alias → pressed state */
   --color-accent-emerald-foreground: #ffffff;
 
   /* ---- Secondary accent: Executive Gold ----
@@ -77,7 +80,7 @@
   --color-warning-foreground: #2a1d06;
   --color-danger: #d9534f; /* genuine errors / destructive / negative financial states only */
   --color-danger-foreground: #ffffff;
-  --color-info: #2e7cf6; /* Neptlium Blue — info banners, links, docs, neutral notices */
+  --color-info: #0B8CFF; /* Neptlium Blue — info banners, links, docs, neutral notices */
   --color-info-foreground: #ffffff;
 
   /* "--color-primary" — kept for text-selection highlight in global.css. */
@@ -186,13 +189,13 @@
   --shadow-md: var(--shadow-elevation-3);
   --shadow-lg: var(--shadow-elevation-5);
   /* Focus ring — Neptlium Blue (restrained, no neon/glow) */
-  --shadow-focus-ring: 0 0 0 3px rgba(46, 124, 246, 0.32);
-  --shadow-glow: 0 0 0 1px rgba(46, 124, 246, 0.14), 0 20px 60px rgba(46, 124, 246, 0.12);
+  --shadow-focus-ring: 0 0 0 3px rgba(11, 140, 255, 0.28);
+  --shadow-glow: 0 0 0 1px rgba(11, 140, 255, 0.14), 0 20px 60px rgba(11, 140, 255, 0.10);
   /* Compatibility aliases — reference same blue focus treatment */
   --shadow-focus-ring-emerald: var(--shadow-focus-ring);
   --shadow-glow-emerald: var(--shadow-glow);
-  --shadow-card-floating: 0 1px 0 rgba(255, 255, 255, 0.02) inset, 0 1px 2px rgba(0, 0, 0, 0.24), 0 8px 24px rgba(0, 0, 0, 0.2);
-  --color-border-whisper: rgba(255, 255, 255, 0.07);
+  --shadow-card-floating: 0 1px 0 rgba(255, 255, 255, 0.02) inset, 0 1px 2px rgba(0, 0, 0, 0.32), 0 8px 24px rgba(0, 0, 0, 0.28);
+  --color-border-whisper: rgba(255, 255, 255, 0.06);
 }
 
 /* ---- Motion (plain custom properties — not Tailwind utilities, consumed by CSS
