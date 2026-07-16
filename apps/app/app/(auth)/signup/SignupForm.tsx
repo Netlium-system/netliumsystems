@@ -6,13 +6,11 @@ import Link from "next/link";
 import { Mail, ArrowLeft, MailCheck } from "lucide-react";
 import { Button, Field, FieldError, Input, Label } from "@netlium/ui";
 import { resendVerification, signup } from "../actions";
+import { emailPattern, passwordPattern } from "../auth-utils";
 import { initialAuthActionState } from "../schema";
 import { AuthShell } from "../components/AuthShell";
 import { AuthNotice } from "../components/AuthNotice";
 import { PasswordRequirements } from "../components/PasswordRequirements";
-
-const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const PASSWORD_RE = /^(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9])\S{8,}$/;
 
 const inputClass =
   "h-12 rounded-md border-[color:var(--color-border-default)] bg-[color:var(--color-surface-1)] pl-10 transition-[border-color,box-shadow] focus:border-[color:var(--color-border-focus)] focus:shadow-[var(--shadow-focus-ring)]";
@@ -49,8 +47,8 @@ export function SignupForm() {
 
   function handleEmailContinue(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    if (!EMAIL_RE.test(email)) {
-      setEmailError("Please enter a valid email address.");
+    if (!emailPattern.test(email)) {
+      setEmailError("Enter a valid email address.");
       return;
     }
     setEmailError(null);
@@ -58,7 +56,7 @@ export function SignupForm() {
   }
 
   function handlePasswordSubmit(event: FormEvent<HTMLFormElement>) {
-    if (!PASSWORD_RE.test(password)) {
+    if (!passwordPattern.test(password)) {
       event.preventDefault();
       setPasswordError("Password must meet all security requirements.");
       return;
@@ -105,8 +103,8 @@ export function SignupForm() {
           </p>
           <div className="flex flex-col gap-3 pt-2">
             <a
-              href={`mailto:${email}`}
-              className="inline-flex h-12 w-full items-center justify-center rounded-full [background:var(--gradient-cta-primary)] text-[15px] font-semibold text-white shadow-sm hover:brightness-110"
+              href={`mailto:${encodeURIComponent(email)}`}
+              className="inline-flex h-12 w-full items-center justify-center rounded-full [background:var(--gradient-cta-primary)] text-[15px] font-semibold text-white shadow-sm hover:brightness-110 focus-visible:outline-none focus-visible:shadow-[var(--shadow-focus-ring)]"
             >
               Open email
             </a>

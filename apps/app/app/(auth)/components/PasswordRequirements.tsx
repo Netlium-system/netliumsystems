@@ -6,7 +6,10 @@ const requirements = [
   ["8+ characters", (value: string) => value.length >= 8],
   ["1 uppercase letter", (value: string) => /[A-Z]/.test(value)],
   ["1 number", (value: string) => /\d/.test(value)],
-  ["1 special character", (value: string) => /[^A-Za-z0-9]/.test(value)],
+  [
+    "1 special character",
+    (value: string) => /[^A-Za-z0-9\s]/.test(value) && !/\s/.test(value),
+  ],
 ] as const;
 
 export function PasswordRequirements({
