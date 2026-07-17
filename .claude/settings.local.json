@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(command -v gh)",
+      "Bash(find /usr /opt /home ~/.local -name \"gh\" -type f)",
+      "Read(//c/Program Files/**)",
+      "Read(//c/Users/Cleaneagle/AppData/Local/Programs//**)",
+      "Bash(git credential-manager:*)",
+      "Bash(git credential-manager-core:*)",
+      "Bash(cmdkey /list)",
+      "Bash(cmd.exe:*)",
+      "Bash(curl -s -H \"Accept: application/vnd.github+json\" \"https://api.github.com/repos/neptliumsysterms/neptlium/pulls/4\")"
+    ]
+  }
+}
