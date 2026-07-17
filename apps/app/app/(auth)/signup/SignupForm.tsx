@@ -92,7 +92,7 @@ export function SignupForm() {
               Verify your email
             </h1>
             <p className="text-[15px] text-text-muted">
-              We sent a secure verification link to:
+              We&apos;ve sent a secure verification link to:
             </p>
             <p className="text-[15px] font-medium text-text-primary">{email}</p>
           </div>
@@ -106,7 +106,7 @@ export function SignupForm() {
               href={`mailto:${encodeURIComponent(email)}`}
               className="inline-flex h-12 w-full items-center justify-center rounded-full [background:var(--gradient-cta-primary)] text-[15px] font-semibold text-white shadow-sm hover:brightness-110 focus-visible:outline-none focus-visible:shadow-[var(--shadow-focus-ring)]"
             >
-              Open email
+              Open Email
             </a>
             <form action={resendAction}>
               <input type="hidden" name="email" value={email} />
@@ -123,7 +123,7 @@ export function SignupForm() {
                   ? "Resending…"
                   : cooldown
                     ? `Resend available in ${cooldown}s`
-                    : "Resend verification email"}
+                    : "Resend Link"}
               </Button>
             </form>
             {resendState.success && (
@@ -155,10 +155,10 @@ export function SignupForm() {
             <h1 className="text-[36px] font-semibold leading-[1.1] tracking-tight text-text-primary sm:text-[40px]">
               Create your
               <br />
-              Neptlium account
+              Neptlium Account
             </h1>
             <p className="text-[15px] text-text-muted">
-              Enter your email to get started.
+              Begin your institutional capital workspace.
             </p>
           </div>
 
@@ -192,7 +192,7 @@ export function SignupForm() {
             </Field>
 
             <Button type="submit" variant="cta" className={ctaClass}>
-              Continue →
+              Continue
             </Button>
           </form>
 
@@ -291,7 +291,7 @@ export function SignupForm() {
             className={ctaClass}
             loading={isPending}
           >
-            {isPending ? "Creating account…" : "Create Account →"}
+            {isPending ? "Creating account…" : "Create Account"}
           </Button>
         </form>
       </div>

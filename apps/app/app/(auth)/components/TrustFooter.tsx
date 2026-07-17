@@ -1,28 +1,27 @@
-import { ShieldCheck, Lock, KeyRound } from "lucide-react";
-
-const items = [
-  { icon: Lock, label: "Encrypted" },
-  { icon: KeyRound, label: "Verified" },
-  { icon: ShieldCheck, label: "Protected" }
+const links = [
+  { label: "Privacy", href: "https://neptlium.com/privacy" },
+  { label: "Terms", href: "https://neptlium.com/terms" },
+  { label: "Security", href: "https://neptlium.com/security" },
+  { label: "System Status", href: "https://status.neptlium.com" },
 ] as const;
 
 export function TrustFooter() {
   return (
-    <ul className="flex items-center justify-center gap-0 text-[11px] tracking-wide text-text-disabled">
-      {items.map(({ icon: Icon, label }, index) => (
-        <li key={label} className="flex items-center">
-          {index > 0 && (
-            <span className="mx-4 select-none text-[color:var(--color-border-default)]" aria-hidden="true">
-              |
-            </span>
-          )}
-          <span className="flex items-center gap-1.5">
-            <Icon className="size-3" aria-hidden="true" />
-            {label}
-          </span>
-        </li>
-      ))}
-    </ul>
+    <nav aria-label="Legal and security links">
+      <ul className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-[11px] tracking-wide text-text-disabled">
+        {links.map(({ label, href }) => (
+          <li key={label}>
+            <a
+              href={href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-text-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary focus-visible:ring-offset-2 focus-visible:ring-offset-transparent rounded-sm"
+            >
+              {label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
   );
 }
-

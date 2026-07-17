@@ -61,7 +61,7 @@ export function ResetPasswordForm() {
             Reset your password
           </h1>
           <p className="text-[15px] text-text-muted">
-            Enter the email address associated with your Neptlium account.
+            Enter the email address associated with your Neptlium Account.
           </p>
         </div>
         <Field>
@@ -89,7 +89,7 @@ export function ResetPasswordForm() {
           className={ctaClass}
           loading={isPending}
         >
-          {isPending ? "Sending link…" : "Send reset link →"}
+          {isPending ? "Sending link…" : "Send Reset Link"}
         </Button>
       </form>
     </AuthShell>

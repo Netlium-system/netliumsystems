@@ -1,8 +1,7 @@
 import { redirect } from "next/navigation";
 import { createSupabaseServerClient } from "@netlium/lib/supabase/server";
-import { Gateway } from "./(auth)/components/Gateway";
 
-export default async function GatewayPage() {
+export default async function RootPage() {
   const supabase = await createSupabaseServerClient();
   const {
     data: { user }
@@ -12,5 +11,5 @@ export default async function GatewayPage() {
     redirect("/dashboard");
   }
 
-  return <Gateway />;
+  redirect("/login");
 }

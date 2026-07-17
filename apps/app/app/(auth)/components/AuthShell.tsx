@@ -24,9 +24,12 @@ export function AuthShell({ children }: AuthShellProps) {
       <div className="relative isolate flex min-h-screen min-h-dvh flex-col px-6 py-10 sm:px-10">
         <AuthBackground />
 
-        {/* Top-left mark */}
-        <div className="mb-12 flex w-full max-w-[560px] self-start sm:mb-14">
+        {/* Top-left wordmark */}
+        <div className="mb-12 flex w-full max-w-[560px] self-start items-center gap-3 sm:mb-14">
           <NeptliumMark size={36} />
+          <span className="text-[15px] font-semibold tracking-[0.12em] text-text-primary uppercase select-none">
+            NEPTLIUM
+          </span>
         </div>
 
         {/* Content */}
