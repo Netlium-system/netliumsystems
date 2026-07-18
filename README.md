@@ -1,69 +1,135 @@
-# Netlium Systems
+# Neptlium Systems
 
 > **Institutional Capital Operating System**
 
-Netlium Systems is an institutional-grade capital operating system designed to provide secure, governed, and intelligent infrastructure for professional investors, capital allocators, family offices, treasury teams, investment firms, and digital asset operators.
+Neptlium Systems is an institutional-grade capital operating system engineered to provide secure, governed, and intelligent infrastructure for professional investors, capital allocators, family offices, treasury teams, investment firms, and digital asset operators.
 
-The platform is engineered as institutional infrastructure—not a retail investment application—and is built to deliver governance, operational visibility, and capital intelligence through a unified operating environment.
+The platform is designed as institutional infrastructure — not a retail investment application.
+
+Neptlium provides a unified operating environment for managing, monitoring, allocating, and governing digital and traditional capital through secure technology infrastructure.
+
+---
+
+# Brand Architecture
+
+## Company
+
+**Neptlium Systems**
+
+Institutional technology infrastructure company building intelligent systems for digital capital operations.
+
+## Platform
+
+**Neptlium**
+
+The institutional capital operating platform.
+
+## Domains
+
+Public website:
+
+```text
+https://neptlium.com
+```
+
+Authenticated platform:
+
+```text
+https://app.neptlium.com
+```
+
+The marketing website and application platform are separate deployments but share the same backend infrastructure and design system.
 
 ---
 
 # Vision
 
-Netlium Systems exists to become the operating system for institutional digital capital.
+Neptlium exists to become the operating system for institutional digital capital.
 
-Organizations should be able to operate every aspect of their capital from a single secure control environment, including:
+Organizations should be able to operate every aspect of their capital from one secure control environment:
 
-* Treasury oversight
-* Portfolio intelligence
-* Capital allocation
-* Performance reporting
-* Investor administration
-* Operational governance
-* Risk monitoring
-* Institutional reporting
+- Treasury oversight
+- Portfolio intelligence
+- Capital allocation
+- Asset management
+- Investor administration
+- Operational governance
+- Risk monitoring
+- Institutional reporting
+- Digital asset infrastructure
 
-The platform prioritizes trust, governance, transparency, and long-term maintainability above rapid feature expansion.
+The platform prioritizes:
+
+- Trust
+- Governance
+- Security
+- Transparency
+- Long-term maintainability
+
+above rapid feature expansion.
 
 ---
 
 # Engineering Philosophy
 
-Every engineering decision must reinforce four core principles:
+Every engineering decision must reinforce four principles:
 
-* **Infrastructure before Investment**
-* **Governance before Growth**
-* **Intelligence before Marketing**
-* **Trust before Conversion**
+## Infrastructure Before Investment
 
-Netlium is designed as enterprise software with institutional standards from the first line of code.
+Build reliable systems before financial products.
+
+## Governance Before Growth
+
+Security, controls, and accountability come before scale.
+
+## Intelligence Before Marketing
+
+Build useful intelligence and operational capability before promotional growth.
+
+## Trust Before Conversion
+
+Institutional confidence is the foundation of adoption.
 
 ---
 
 # Repository Architecture
 
-This repository is a **Turborepo monorepo** that contains multiple independently deployable Next.js applications sharing a common design system, shared libraries, and a single Supabase backend.
+Neptlium is a **Turborepo monorepo** containing independently deployable applications sharing common packages, design systems, domain libraries, and a unified Supabase backend.
 
 ```text
-netliumsystems/
+neptlium/
 
 ├── apps/
-│   ├── web/                    # Public institutional website
-│   └── app/                    # Authenticated control platform
+│   │
+│   ├── web/
+│   │   # Public institutional website
+│   │
+│   └── app/
+│       # Authenticated capital operating platform
 │
 ├── packages/
-│   ├── ui/                     # Shared design system
-│   ├── lib/                    # Shared Supabase & utilities
-│   ├── config/                 # Shared configuration
-│   └── types/                  # Shared domain models
+│   │
+│   ├── ui/
+│   │   # Shared Neptlium design system
+│   │
+│   ├── lib/
+│   │   # Shared services and utilities
+│   │
+│   ├── config/
+│   │   # Shared engineering configuration
+│   │
+│   └── types/
+│       # Shared domain models
 │
 ├── supabase/
+│   │
 │   ├── migrations/
 │   ├── functions/
 │   ├── storage/
 │   └── policies/
 │
 ├── .github/
+│
 ├── turbo.json
 ├── pnpm-workspace.yaml
 └── README.md
@@ -73,48 +139,54 @@ netliumsystems/
 
 # Applications
 
-## apps/web
+# apps/web
 
-Public institutional website.
+## Public Institutional Website
 
 Purpose:
 
-* Brand positioning
-* Platform narrative
-* Governance
-* Security
-* Research
-* Company information
-* Institutional trust
-* Qualified investor acquisition
+- Brand positioning
+- Company narrative
+- Institutional trust
+- Research
+- Security communication
+- Governance
+- Investor education
+- Qualified user acquisition
 
 Production:
 
+```text
+https://neptlium.com
 ```
-https://netliumsystems.com
-```
+
+The marketing website operates independently from the application platform.
 
 ---
 
-## apps/app
+# apps/app
 
-Authenticated institutional operating platform.
+## Institutional Capital Platform
 
 Purpose:
 
-* Executive dashboard
-* Treasury management
-* Portfolio intelligence
-* Capital allocation
-* Risk monitoring
-* Operational reporting
-* Investor communications
-* Administrative workflows
+The authenticated operating environment where users manage and monitor capital.
+
+Capabilities:
+
+- Executive dashboard
+- Treasury management
+- Portfolio intelligence
+- Capital allocation
+- Risk monitoring
+- Reporting
+- Investor operations
+- Administrative workflows
 
 Production:
 
-```
-https://app.netliumsystems.com
+```text
+https://app.neptlium.com
 ```
 
 ---
@@ -123,48 +195,58 @@ https://app.netliumsystems.com
 
 ## packages/ui
 
-Institutional design system.
+Neptlium global design system.
 
 Contains:
 
-* shadcn/ui
-* Radix UI
-* Design tokens
-* Layout primitives
-* Typography
-* Icons
-* Motion standards
-* Shared components
+- Design tokens
+- Typography system
+- Colors
+- Layout primitives
+- shadcn/ui components
+- Radix UI primitives
+- Buttons
+- Forms
+- Navigation
+- Tables
+- Cards
+- Data visualization components
+- Motion standards
+- Brand assets
+
+All applications must consume this system.
 
 ---
 
 ## packages/lib
 
-Shared platform services.
+Shared platform infrastructure.
 
 Contains:
 
-* Supabase clients
-* Authentication helpers
-* Server utilities
-* Browser utilities
-* API clients
-* Validation
-* Shared hooks
+- Supabase clients
+- Authentication helpers
+- Database utilities
+- Server utilities
+- Browser utilities
+- API clients
+- Validation
+- Security helpers
+- Shared hooks
 
 ---
 
 ## packages/config
 
-Shared engineering configuration.
+Shared configuration.
 
 Contains:
 
-* ESLint
-* TypeScript
-* Tailwind CSS
-* Prettier
-* Build configuration
+- ESLint
+- TypeScript
+- Tailwind
+- Prettier
+- Build configuration
 
 ---
 
@@ -174,332 +256,304 @@ Shared domain models.
 
 Examples:
 
-* User
-* Role
-* Investor
-* Portfolio
-* TreasuryAccount
-* CapitalAccount
-* Allocation
-* Transaction
-* LedgerEntry
-* Notification
-* AuditLog
-* Document
+- User
+- Role
+- Organization
+- Investor
+- Portfolio
+- TreasuryAccount
+- CapitalAccount
+- Allocation
+- Transaction
+- LedgerEntry
+- Notification
+- AuditLog
+- Document
 
 ---
 
-# Shared Backend
+# Backend Infrastructure
 
-All applications connect to a single external Supabase project.
+All applications connect to one external Supabase project.
 
-The backend is already established and should be treated as the authoritative data layer.
+Supabase is the authoritative backend layer.
 
-Frontend applications must consume the existing infrastructure rather than recreating database objects.
+Services include:
 
-Core services include:
+- Supabase Auth
+- PostgreSQL
+- Row Level Security
+- Storage
+- Edge Functions
+- Database migrations
+- Realtime
 
-* Supabase Auth
-* PostgreSQL
-* Row Level Security
-* Storage
-* Edge Functions
-* Database Migrations
-* Realtime
+Frontend applications must consume existing backend infrastructure.
+
+Do not recreate database systems inside applications.
 
 ---
 
-# Existing Supabase Domain Modules
+# Identity & Access
 
-The current backend already contains institutional infrastructure for:
+Neptlium authentication is powered by:
 
-## Identity & Access
+## Supabase Auth
 
-* profiles
-* user_roles
-* aliases
+Responsibilities:
+
+- User registration
+- Login
+- Sessions
+- Email verification
+- Password recovery
+- Identity management
+
+Application database stores:
+
+- Profiles
+- Roles
+- Permissions
+- Organizations
+- Platform metadata
+
+---
+
+# Existing Domain Modules
+
+## Identity
+
+Infrastructure:
+
+- profiles
+- user_roles
+- aliases
 
 Roles:
 
-* user
-* operator
-* analyst
-* manager
-* admin
-* super_admin
+- user
+- operator
+- analyst
+- manager
+- admin
+- super_admin
 
-Authentication is provided through Supabase Auth with Row Level Security enforced throughout the platform.
+Authorization is enforced through:
+
+- Supabase Auth
+- Row Level Security
+- Server-side validation
 
 ---
 
-## Treasury
-
-Existing infrastructure includes:
-
-* Account balances
-* Ledger entries
-* Deposits
-* Withdrawal requests
-* Payment intents
-* On-chain transactions
+# Treasury Infrastructure
 
 Capabilities:
 
-* Treasury visibility
-* Cash movement tracking
-* Institutional ledger
-* Settlement history
+- Account balances
+- Ledger entries
+- Deposits
+- Withdrawal requests
+- Payment intents
+- On-chain transactions
+
+Purpose:
+
+Institutional treasury visibility and capital movement tracking.
 
 ---
 
-## Portfolio Intelligence
+# Portfolio Intelligence
 
-Existing infrastructure includes:
+Infrastructure:
 
-* Portfolios
-* Holdings
-* Assets
-* Yield records
+- Portfolios
+- Holdings
+- Assets
+- Yield records
 
 Capabilities:
 
-* Portfolio composition
-* Performance analysis
-* Exposure monitoring
+- Portfolio composition
+- Exposure analysis
+- Performance intelligence
+- Asset monitoring
 
 ---
 
-## Allocation Engine
+# Allocation Engine
 
-Existing infrastructure includes:
+Infrastructure:
 
-* Strategies
-* Strategy allocations
-* Capital allocations
-* Protocols
+- Strategies
+- Strategy allocations
+- Capital allocations
+- Protocol records
 
 Capabilities:
 
-* Capital deployment
-* Strategy management
-* Institutional allocation workflows
+- Capital deployment
+- Strategy management
+- Institutional allocation workflows
 
 ---
 
-## Risk Intelligence
+# Risk Intelligence
 
-Existing infrastructure includes:
+Infrastructure:
 
-* Risk scores
-* Market signals
-* Whale signals
-* Rebalancing events
+- Risk scores
+- Market signals
+- Whale signals
+- Rebalancing events
 
 Capabilities:
 
-* Exposure monitoring
-* Market intelligence
-* Institutional risk analytics
+- Exposure monitoring
+- Risk analysis
+- Market intelligence
 
 ---
 
-## Operations
+# Operations
 
-Existing infrastructure includes:
+Infrastructure:
 
-* Audit logs
-* Notifications
+- Audit logs
+- Notifications
+- Administrative workflows
 
 Capabilities:
 
-* Operational governance
-* Activity tracking
-* Auditability
-* Administrative oversight
+- Governance
+- Accountability
+- Operational visibility
+- Institutional reporting
 
 ---
 
-## Billing
+# Billing
 
-Existing infrastructure includes:
+Infrastructure:
 
-* Subscriptions
-* Payment intents
-
----
-
-# Engineering Standards
-
-Every contribution must be:
-
-* Type-safe
-* Secure
-* Accessible
-* Responsive
-* Production-ready
-* Well documented
-* Scalable
-* Tested
-
-Avoid placeholder implementations in the main branch.
-
-Every feature should be complete enough for production evolution.
+- Subscriptions
+- Payment intents
 
 ---
 
-# Security Principles
+# Security Standards
 
 Security is foundational.
 
-Mandatory requirements include:
+Mandatory requirements:
 
-* Row Level Security
-* Least privilege access
-* Role-based authorization
-* Protected routes
-* Session validation
-* Audit logging
-* Secure API communication
+- Row Level Security
+- Least privilege access
+- Role-based authorization
+- Protected routes
+- Session validation
+- Audit logging
+- Secure API communication
+- Server-side permission enforcement
 
-Frontend authorization enhances user experience but never replaces backend enforcement.
+Frontend restrictions improve UX.
 
-Supabase RLS remains the source of truth.
+Supabase RLS remains the final security authority.
 
 ---
 
-# Design Principles
+# Design System Principles
 
-Netlium should visually align with institutional software such as:
+Neptlium follows an institutional technology aesthetic.
 
-* Bloomberg Terminal
-* Stripe Dashboard
-* Mercury
-* Ramp
-* Coinbase Prime
+Reference direction:
+
+- Bloomberg Terminal
+- Stripe Dashboard
+- Mercury
+- Ramp
+- Coinbase Prime
 
 Avoid:
 
-* Retail crypto styling
-* Meme aesthetics
-* Neon color palettes
-* Gamification
-* Excessive visual effects
+- Retail crypto aesthetics
+- Meme styling
+- Neon palettes
+- Gamification
+- Excessive animations
 
-Design characteristics:
+Design language:
 
-* Dark
-* Minimal
-* Structured
-* Executive-grade
-* Information-dense
-* Trust-oriented
+- Deep black backgrounds
+- Controlled blue accents
+- White clarity
+- Executive typography
+- Dense information hierarchy
+- Minimal luxury
+- Institutional confidence
 
 ---
 
-# Deployment
+# Deployment Architecture
 
-Each application deploys independently.
+Applications deploy independently.
 
-Public website:
+## Marketing
 
-```
+Repository:
+
+```text
 apps/web
-↓
-https://netliumsystems.com
 ```
 
-Control platform:
+Domain:
 
+```text
+https://neptlium.com
 ```
+
+---
+
+## Platform
+
+Repository:
+
+```text
 apps/app
-↓
-https://app.netliumsystems.com
 ```
 
-Both applications share the same backend and internal packages while maintaining independent deployment pipelines.
+Domain:
+
+```text
+https://app.neptlium.com
+```
 
 ---
 
-# Development Roadmap
+Both applications share:
 
-## Phase 1
-
-Platform Foundation
-
-* Turborepo
-* Shared packages
-* Supabase integration
-* Authentication
-* CI/CD
+- Supabase backend
+- Design system
+- Shared libraries
+- Domain models
 
 ---
 
-## Phase 2
+# Development Commands
 
-Institutional Website
-
-* Brand
-* Research
-* Governance
-* Security
-* Investor acquisition
-
----
-
-## Phase 3
-
-Institutional Control Platform
-
-* Authentication
-* Dashboard
-* Portfolio
-* Treasury
-* Reporting
-* Notifications
-
----
-
-## Phase 4
-
-Capital Operations
-
-* Ledger
-* Deposits
-* Withdrawals
-* Approvals
-* Cash movements
-* Operational workflows
-
----
-
-## Phase 5
-
-Institutional Administration
-
-* Investor management
-* Compliance
-* Audit logs
-* Operations
-* Reporting
-* Analytics
-
----
-
-# Local Development
-
-Install dependencies:
+Install:
 
 ```bash
 pnpm install
 ```
 
-Run all applications:
+Development:
 
 ```bash
 pnpm dev
 ```
 
-Build the workspace:
+Build:
 
 ```bash
 pnpm build
@@ -511,7 +565,7 @@ Lint:
 pnpm lint
 ```
 
-Type check:
+Type checking:
 
 ```bash
 pnpm check-types
@@ -519,8 +573,96 @@ pnpm check-types
 
 ---
 
+# Engineering Rules
+
+Every contribution must be:
+
+- Type-safe
+- Secure
+- Accessible
+- Responsive
+- Tested
+- Documented
+- Production-ready
+- Scalable
+
+Never introduce:
+
+- Fake financial data
+- Mock users
+- Placeholder security
+- Client-only authorization
+- Unprotected database access
+
+---
+
+# Development Roadmap
+
+## Phase 1 — Foundation
+
+Complete:
+
+- Turborepo architecture
+- Shared packages
+- Supabase integration
+- Authentication
+- CI/CD
+- Production deployment foundation
+
+---
+
+## Phase 2 — Institutional Website
+
+Build:
+
+- Brand platform
+- Research
+- Security
+- Governance
+- Institutional education
+
+---
+
+## Phase 3 — Capital Operating Platform
+
+Build:
+
+- Dashboard
+- Treasury
+- Portfolio intelligence
+- Reporting
+- Notifications
+
+---
+
+## Phase 4 — Capital Operations
+
+Build:
+
+- Ledger workflows
+- Deposits
+- Withdrawals
+- Approvals
+- Settlement operations
+
+---
+
+## Phase 5 — Institutional Administration
+
+Build:
+
+- Investor management
+- Compliance workflows
+- Audit systems
+- Analytics
+- Reporting
+
+---
+
 # Mission
 
-Netlium Systems is building institutional infrastructure for digital capital.
+Neptlium Systems is building the infrastructure layer for institutional digital capital.
 
-Every service, interface, and engineering decision should reinforce operational excellence, governance, transparency, and institutional confidence.
+Every product decision, engineering decision, and design decision must reinforce:
+
+**Security. Governance. Intelligence. Trust.**
