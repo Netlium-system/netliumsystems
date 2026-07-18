@@ -2,18 +2,18 @@
   "redirects": [
     {
       "source": "/:path*",
-      "has": [{ "type": "host", "value": "www.netlium.co" }],
-      "destination": "https://netlium.co/:path*",
+      "has": [{ "type": "host", "value": "www.neptlium.com" }],
+      "destination": "https://neptlium.com/:path*",
       "permanent": true
     },
     {
       "source": "/app/:path*",
-      "destination": "https://app.netlium.co/app/:path*",
+      "destination": "https://app.neptlium.com/:path*",
       "permanent": false
     },
     {
       "source": "/login",
-      "destination": "https://app.netlium.co/login",
+      "destination": "https://app.neptlium.com/login",
       "permanent": false
     }
   ],
