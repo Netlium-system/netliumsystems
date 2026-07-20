@@ -23,7 +23,7 @@ const items = [
     icon: Lock,
     title: "No private key storage",
     description:
-      "Netlium never stores, transmits, or has visibility into your private keys. Wallets remain entirely under member control.",
+      "Neptlium never stores, transmits, or has visibility into your private keys. Wallets remain entirely under member control.",
   },
   {
     icon: ServerCog,
@@ -63,7 +63,7 @@ const Security = () => {
           <SectionHeader
             eyebrow="Security"
             title="Designed under institutional security assumptions."
-            description="Netlium's security posture is built around non-custodial identity, controlled capital movement, and encrypted infrastructure assumptions across the allocation pipeline."
+            description="Neptlium's security posture is built around non-custodial identity, controlled capital movement, and encrypted infrastructure assumptions across the allocation pipeline."
           />
         </div>
       </section>

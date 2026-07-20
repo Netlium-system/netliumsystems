@@ -16,14 +16,14 @@ const Contact = () => {
   return (
     <PageShell
       title="Contact"
-      description="Reach the Netlium team for institutional access, partnership, or platform inquiries."
+      description="Reach the Neptlium team for institutional access, partnership, or platform inquiries."
     >
       <section className="relative overflow-hidden bg-gradient-hero">
         <div className="absolute inset-0 grid-pattern opacity-50" />
         <div className="container-wide relative py-24 sm:py-32">
           <SectionHeader
             eyebrow="Contact"
-            title="Speak with the Netlium team."
+            title="Speak with the Neptlium team."
             description="Reach out for institutional access, allocation inquiries, or partnership conversations. Investor access requests are reviewed directly."
           />
         </div>
@@ -41,7 +41,7 @@ const Contact = () => {
                   Message received
                 </h3>
                 <p className="mt-3 max-w-md text-sm text-muted-foreground">
-                  Thank you. The Netlium team will respond to your inquiry from{" "}
+                  Thank you. The Neptlium team will respond to your inquiry from{" "}
                   <span className="text-foreground">{SITE.email}</span>.
                 </p>
               </div>

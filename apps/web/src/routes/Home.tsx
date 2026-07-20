@@ -53,7 +53,7 @@ const Home = () => {
   return (
     <PageShell
       title="Private Global Payments & Institutional AI Allocation"
-      description="Netlium combines private financial infrastructure, programmable settlement rails, and AI-driven allocation systems into one sovereign-grade platform."
+      description="Neptlium combines private financial infrastructure, programmable settlement rails, and AI-driven allocation systems into one sovereign-grade platform."
     >
       <CinematicLighting />
 
@@ -73,7 +73,7 @@ const Home = () => {
                   className="mt-7 max-w-xl animate-fade-up text-left text-pretty text-[1.0625rem] leading-relaxed text-muted-foreground sm:text-xl"
                   style={{ animationDelay: "120ms" }}
                 >
-                  Netlium combines private financial infrastructure, programmable
+                  Neptlium combines private financial infrastructure, programmable
                   settlement rails, and AI-driven allocation systems into one
                   sovereign-grade platform.
                 </p>
@@ -137,7 +137,7 @@ const Home = () => {
               Built for institutional capital operations
             </h2>
             <p className="mx-auto mt-4 max-w-2xl text-pretty text-sm leading-relaxed text-muted-foreground sm:text-base">
-              Treasury, allocation, and settlement teams rely on Netlium as the
+              Treasury, allocation, and settlement teams rely on Neptlium as the
               execution layer for modern financial organizations.
             </p>
           </ScrollReveal>
@@ -296,7 +296,7 @@ const Home = () => {
                 <span className="text-[hsl(217_91%_50%)]">institutional capital.</span>
               </h2>
               <p className="mt-7 max-w-xl text-pretty text-lg leading-relaxed text-neutral-600">
-                Netlium unifies private payments, programmable treasury, and
+                Neptlium unifies private payments, programmable treasury, and
                 risk-aware allocation into a single execution layer — designed
                 for the discipline, control, and scale that financial
                 organizations demand.
@@ -452,7 +452,7 @@ const Home = () => {
           </div>
           <ScrollReveal className="mt-12 text-center" delay={200}>
             <CTAButton href={APP_URLS.app} size="lg" showArrow>
-              Launch Netlium
+              Launch Neptlium
             </CTAButton>
           </ScrollReveal>
         </div>
@@ -473,7 +473,7 @@ const Home = () => {
             </p>
             <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
               <CTAButton href={APP_URLS.app} size="lg" showArrow>
-                Launch Netlium
+                Launch Neptlium
               </CTAButton>
               <CTAButton href={APP_URLS.login} variant="secondary" size="lg">
                 Access Platform
@@ -499,7 +499,7 @@ const TerminalPreview = () => (
         <span className="h-2.5 w-2.5 rounded-full bg-success/70" />
       </div>
       <div className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
-        Netlium · Treasury
+        Neptlium · Treasury
       </div>
       <div className="flex items-center gap-1.5 text-[10px] text-success">
         <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-success" />

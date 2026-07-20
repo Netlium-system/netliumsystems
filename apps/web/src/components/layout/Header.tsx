@@ -69,7 +69,7 @@ export const Header = () => {
       className="sticky top-0 z-50 border-b border-border bg-[hsl(0_0%_3%/0.92)] shadow-[0_1px_0_hsl(0_0%_100%/0.03)_inset,0_10px_30px_-12px_hsl(0_0%_0%/0.9)] backdrop-blur-xl"
     >
       <div className="container-wide flex h-20 items-center justify-between gap-6">
-        <Link to="/" className="flex items-center" aria-label="Netlium home">
+        <Link to="/" className="flex items-center" aria-label="Neptlium home">
           <Logo size={30} />
         </Link>
 

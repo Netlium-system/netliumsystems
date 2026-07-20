@@ -20,7 +20,7 @@ export const Logo = ({ className, withWordmark = true, size = 28 }: LogoProps) =
     >
       <img
         src={logoSrc}
-        alt="Netlium"
+        alt="Neptlium"
         width={size}
         height={size}
         className="rounded-[6px]"
@@ -29,7 +29,7 @@ export const Logo = ({ className, withWordmark = true, size = 28 }: LogoProps) =
     </span>
     {withWordmark && (
       <span className="font-display text-lg font-semibold tracking-tight text-foreground">
-        Netlium
+        Neptlium
       </span>
     )}
   </span>

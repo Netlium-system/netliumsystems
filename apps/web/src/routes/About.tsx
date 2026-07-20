@@ -7,7 +7,7 @@ const About = () => {
   return (
     <PageShell
       title="About"
-      description="Netlium is built for XRP holders and capital allocators who want structured participation, not speculative trading."
+      description="Neptlium is built for XRP holders and capital allocators who want structured participation, not speculative trading."
     >
       <section className="relative overflow-hidden bg-gradient-hero">
         <div className="absolute inset-0 grid-pattern opacity-50" />
@@ -15,7 +15,7 @@ const About = () => {
           <SectionHeader
             eyebrow="About"
             title="Structured participation. Not speculative trading."
-            description="Netlium was built for the segment of the XRP ecosystem that wants disciplined, allocation-grade infrastructure — not another consumer crypto app."
+            description="Neptlium was built for the segment of the XRP ecosystem that wants disciplined, allocation-grade infrastructure — not another consumer crypto app."
           />
         </div>
       </section>
@@ -34,7 +34,7 @@ const About = () => {
               networks.
             </p>
             <p className="mt-4 text-base leading-relaxed text-muted-foreground">
-              Netlium is that infrastructure. A capital allocation system,
+              Neptlium is that infrastructure. A capital allocation system,
               multi-asset routing engine, and structured participation layer
               built for the XRP holder who treats capital with discipline.
             </p>
@@ -43,7 +43,7 @@ const About = () => {
           <div className="grid gap-4 sm:grid-cols-2">
             <div className="rounded-lg border border-border bg-gradient-panel p-6">
               <h4 className="text-base font-semibold text-foreground">
-                Who Netlium is for
+                Who Neptlium is for
               </h4>
               <ul className="mt-3 space-y-2 text-sm text-muted-foreground">
                 <li>· XRP holders allocating capital seriously</li>
@@ -53,7 +53,7 @@ const About = () => {
             </div>
             <div className="rounded-lg border border-border bg-gradient-panel p-6">
               <h4 className="text-base font-semibold text-foreground">
-                Who Netlium is not for
+                Who Neptlium is not for
               </h4>
               <ul className="mt-3 space-y-2 text-sm text-muted-foreground">
                 <li>· Day traders and speculators</li>

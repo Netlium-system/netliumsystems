@@ -1,6 +1,6 @@
 import { ReactNode, useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import { NetliumBrand } from "@/lib/netlium-branding";
+import { NeptliumBrand } from "@/lib/neptlium-branding";
 
 interface PageShellProps {
   children: ReactNode;
@@ -18,14 +18,14 @@ export const PageShell = ({
   const location = useLocation();
 
   const meta = type === "marketing"
-    ? NetliumBrand.marketing
-    : NetliumBrand.app;
+    ? NeptliumBrand.marketing
+    : NeptliumBrand.app;
 
   useEffect(() => {
     window.scrollTo(0, 0);
 
     document.title = title
-      ? `${title} — Netlium`
+      ? `${title} — Neptlium`
       : meta.title;
 
     let metaTag = document.querySelector('meta[name="description"]');

@@ -17,7 +17,7 @@ const layers = [
     icon: Wallet,
     title: "Wallet Identity Layer",
     description:
-      "Non-custodial XRP wallet verification anchors every account. Identity is bound to a wallet, not a password — Netlium never stores private keys.",
+      "Non-custodial XRP wallet verification anchors every account. Identity is bound to a wallet, not a password — Neptlium never stores private keys.",
   },
   {
     icon: Network,
@@ -55,7 +55,7 @@ const Platform = () => {
   return (
     <PageShell
       title="Platform"
-      description="Netlium's six-layer institutional infrastructure for XRP-native capital allocation."
+      description="Neptlium's six-layer institutional infrastructure for XRP-native capital allocation."
     >
       <section className="relative overflow-hidden bg-gradient-hero">
         <div className="absolute inset-0 grid-pattern opacity-50" />
@@ -63,7 +63,7 @@ const Platform = () => {
           <SectionHeader
             eyebrow="Platform"
             title="Six layers. One disciplined allocation pipeline."
-            description="Netlium's infrastructure is engineered as discrete, auditable layers — from wallet identity through reporting. Each is built independently and composed into a single capital allocation system."
+            description="Neptlium's infrastructure is engineered as discrete, auditable layers — from wallet identity through reporting. Each is built independently and composed into a single capital allocation system."
           />
         </div>
       </section>

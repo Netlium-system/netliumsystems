@@ -9,7 +9,7 @@ const sections = [
   },
   {
     title: "How we use information",
-    body: "We use the information to respond to access and demo requests, communicate about Netlium, improve our website, and meet legal and security obligations. We do not sell personal information.",
+    body: "We use the information to respond to access and demo requests, communicate about Neptlium, improve our website, and meet legal and security obligations. We do not sell personal information.",
   },
   {
     title: "Data retention",
@@ -32,7 +32,7 @@ const sections = [
 const Privacy = () => (
   <PageShell
     title="Privacy Policy"
-    description="How Netlium collects, uses, and protects information on this institutional marketing website."
+    description="How Neptlium collects, uses, and protects information on this institutional marketing website."
   >
     <section className="relative border-b border-border py-24 sm:py-28">
       <div aria-hidden className="enterprise-grid" />
@@ -40,7 +40,7 @@ const Privacy = () => (
         <SectionHeader
           eyebrow="Legal"
           title="Privacy Policy"
-          description="This page describes how Netlium handles information submitted through this institutional marketing website."
+          description="This page describes how Neptlium handles information submitted through this institutional marketing website."
         />
         <div className="mt-12 space-y-10">
           {sections.map((s) => (

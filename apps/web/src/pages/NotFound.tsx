@@ -15,7 +15,7 @@ const NotFound = () => {
             <span className="text-gradient">Page not found.</span>
           </h1>
           <p className="mt-4 max-w-md text-muted-foreground">
-            The page you're looking for doesn't exist. Return to the Netlium
+            The page you're looking for doesn't exist. Return to the Neptlium
             homepage.
           </p>
           <div className="mt-8">

@@ -13,7 +13,7 @@ const sections = [
   },
   {
     title: "Intellectual property",
-    body: "The Netlium name, brand, content, and design are owned by Netlium and may not be reproduced without permission.",
+    body: "The Neptlium name, brand, content, and design are owned by Neptlium and may not be reproduced without permission.",
   },
   {
     title: "Acceptable use",
@@ -21,7 +21,7 @@ const sections = [
   },
   {
     title: "Limitation of liability",
-    body: "This website is provided on an \u201cas is\u201d basis. To the maximum extent permitted by law, Netlium disclaims liability for any damages arising from use of this website.",
+    body: "This website is provided on an \u201cas is\u201d basis. To the maximum extent permitted by law, Neptlium disclaims liability for any damages arising from use of this website.",
   },
   {
     title: "Contact",
@@ -32,7 +32,7 @@ const sections = [
 const Terms = () => (
   <PageShell
     title="Terms of Service"
-    description="The terms governing use of the Netlium institutional marketing website."
+    description="The terms governing use of the Neptlium institutional marketing website."
   >
     <section className="relative border-b border-border py-24 sm:py-28">
       <div aria-hidden className="enterprise-grid" />
@@ -40,7 +40,7 @@ const Terms = () => (
         <SectionHeader
           eyebrow="Legal"
           title="Terms of Service"
-          description="These terms govern your use of the Netlium institutional marketing website."
+          description="These terms govern your use of the Neptlium institutional marketing website."
         />
         <div className="mt-12 space-y-10">
           {sections.map((s) => (

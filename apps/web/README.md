@@ -1,22 +1,22 @@
-# Netlium Systems
+# Neptlium Systems
 
 > Institutional Capital Infrastructure for the Digital Asset Economy
 
-Netlium Systems builds institutional-grade software that enables organizations to coordinate, allocate, monitor, and manage digital capital through secure, intelligent infrastructure.
+Neptlium Systems builds institutional-grade software that enables organizations to coordinate, allocate, monitor, and manage digital capital through secure, intelligent infrastructure.
 
-This repository contains the public marketing platform that introduces the Netlium ecosystem, communicates the platform vision, and serves as the institutional entry point into the Netlium application.
+This repository contains the public marketing platform that introduces the Neptlium ecosystem, communicates the platform vision, and serves as the institutional entry point into the Neptlium application.
 
 ---
 
 ## Overview
 
-Netlium is not a cryptocurrency exchange.
+Neptlium is not a cryptocurrency exchange.
 
 It is not a trading platform.
 
 It is not a custodial wallet.
 
-Netlium is an institutional capital operating system designed to coordinate digital asset infrastructure for investment firms, treasury teams, enterprises, family offices, and institutional participants.
+Neptlium is an institutional capital operating system designed to coordinate digital asset infrastructure for investment firms, treasury teams, enterprises, family offices, and institutional participants.
 
 Our mission is to simplify institutional participation in digital asset markets through secure infrastructure, intelligent capital coordination, and modern financial software.
 
@@ -24,11 +24,11 @@ Our mission is to simplify institutional participation in digital asset markets 
 
 ## Platform Architecture
 
-The Netlium ecosystem consists of two independent platforms.
+The Neptlium ecosystem consists of two independent platforms.
 
 ### Marketing Platform
 
-**https://netliumsystems.com**
+**https://neptlium.com**
 
 The public-facing institutional website responsible for:
 
@@ -47,7 +47,7 @@ This repository contains the source code for the marketing platform.
 
 ### Application Platform
 
-**https://app.netliumsystems.com**
+**https://app.neptlium.com**
 
 The secure operational platform providing authenticated access to:
 
@@ -66,7 +66,7 @@ The application is maintained independently from this repository.
 
 # Core Principles
 
-Netlium is built around several foundational principles.
+Neptlium is built around several foundational principles.
 
 ## Institutional First
 
@@ -76,7 +76,7 @@ Every feature is designed for organizations rather than retail users.
 
 ## Infrastructure Before Interface
 
-Netlium prioritizes reliable financial infrastructure over speculative financial products.
+Neptlium prioritizes reliable financial infrastructure over speculative financial products.
 
 ---
 
@@ -94,7 +94,7 @@ Artificial intelligence and automation enhance treasury workflows, portfolio mon
 
 # Infrastructure Model
 
-Netlium coordinates digital capital through multiple operational layers.
+Neptlium coordinates digital capital through multiple operational layers.
 
 ## Capital Intake
 
@@ -145,7 +145,7 @@ Current technologies include:
 
 # Design Philosophy
 
-Netlium follows a restrained institutional design language.
+Neptlium follows a restrained institutional design language.
 
 The visual system emphasizes:
 
@@ -217,24 +217,24 @@ npm run preview
 
 Production Marketing Platform
 
-https://netliumsystems.com
+https://neptlium.com
 
 Production Application
 
-https://app.netliumsystems.com
+https://app.neptlium.com
 
 ---
 
 # Vision
 
-Netlium is building the operating system for institutional digital capital.
+Neptlium is building the operating system for institutional digital capital.
 
-By combining secure infrastructure, intelligent automation, and modern financial software, Netlium enables institutions to coordinate digital capital with the same confidence and operational discipline expected in traditional financial markets.
+By combining secure infrastructure, intelligent automation, and modern financial software, Neptlium enables institutions to coordinate digital capital with the same confidence and operational discipline expected in traditional financial markets.
 
 ---
 
 ## License
 
-Copyright © Netlium Systems.
+Copyright © Neptlium Systems.
 
 All rights reserved.
