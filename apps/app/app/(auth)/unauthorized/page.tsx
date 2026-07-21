@@ -1,11 +1,8 @@
 import { Button } from "@netlium/ui";
-import { requireUser } from "@/lib/auth";
 import { signOutAction } from "@/components/security/actions";
 import { AuthShell } from "../components/AuthShell";
 
-export default async function UnauthorizedPage() {
-  await requireUser();
-
+export default function UnauthorizedPage() {
   return (
     <AuthShell>
       <div className="flex flex-col gap-6">
