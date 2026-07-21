@@ -10,7 +10,13 @@
       "Bash(find / -maxdepth 6 -iname \"config.toml\" -path \"*supabase*\")",
       "Bash(env)",
       "Bash(npx --yes supabase projects list)",
-      "mcp__claude_ai_Supabase__search_docs"
+      "mcp__claude_ai_Supabase__search_docs",
+      "Bash(rm -f vite.config.ts vitest.config.ts tsconfig.app.json tsconfig.node.json index.html src/main.tsx src/App.tsx src/App.css src/vite-env.d.ts)",
+      "Bash(rm -f src/layouts/MarketingLayout.tsx src/components/layout/PageShell.tsx src/test/example.test.ts src/test/setup.ts)",
+      "Bash(git -C /c/Users/Cleaneagle/Projects/neptlium add .github/workflows/)",
+      "Bash(git -C /c/Users/Cleaneagle/Projects/neptlium status --porcelain)",
+      "Bash(git -C /c/Users/Cleaneagle/Projects/neptlium add apps/web/README.md)",
+      "Bash(git -C /c/Users/Cleaneagle/Projects/neptlium cherry-pick --continue --no-edit)"
     ]
   }
 }
