@@ -21,11 +21,11 @@ export interface AuthShellProps {
 export function AuthShell({ children }: AuthShellProps) {
   return (
     <MotionConfig reducedMotion="user">
-      <div className="relative isolate flex min-h-screen min-h-dvh flex-col px-6 py-10 sm:px-10">
+      <div className="relative isolate flex min-h-screen min-h-dvh flex-col px-4 pb-[calc(env(safe-area-inset-bottom)+1.5rem)] pt-[calc(env(safe-area-inset-top)+1.5rem)] sm:px-10 sm:py-10">
         <AuthBackground />
 
         {/* Top-left wordmark */}
-        <div className="mb-12 flex w-full max-w-[560px] self-start items-center gap-3 sm:mb-14">
+        <div className="mb-8 flex w-full max-w-[560px] self-start items-center gap-3 sm:mb-12">
           <NeptliumMark size={36} />
           <span className="text-[15px] font-semibold tracking-[0.12em] text-text-primary uppercase select-none">
             NEPTLIUM
@@ -38,7 +38,7 @@ export function AuthShell({ children }: AuthShellProps) {
         </div>
 
         {/* Trust footer */}
-        <div className="mt-12 flex w-full justify-center">
+        <div className="mt-8 flex w-full justify-center sm:mt-12">
           <TrustFooter />
         </div>
       </div>

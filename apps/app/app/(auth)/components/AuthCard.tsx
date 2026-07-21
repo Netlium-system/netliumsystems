@@ -4,7 +4,7 @@ import { cn } from "@netlium/ui";
 
 const authCardVariants = cva(
   [
-    "relative mx-auto w-full rounded-lg border p-8",
+    "relative mx-auto w-full max-w-[calc(100vw-2rem)] rounded-lg border p-5 sm:p-7",
     "border-[color:var(--color-border-whisper)] bg-surface-2",
     "shadow-[var(--shadow-card-floating)]"
   ].join(" "),

@@ -8,7 +8,7 @@ export interface CustodyNetwork {
   readonly label: string;
 }
 
-export type CustodyAddressStatus = "active" | "retired";
+export type CustodyAddressStatus = "active" | "available" | "pending" | "retired";
 
 export interface CustodyAddress {
   readonly id: string;
@@ -16,6 +16,11 @@ export interface CustodyAddress {
   readonly network: string;
   readonly address: string;
   readonly status: CustodyAddressStatus;
+  readonly memo?: string | null;
+  readonly destinationTag?: string | null;
+  readonly verificationState?: string | null;
+  readonly minimumDeposit?: number | null;
+  readonly requiredConfirmations?: number | null;
   readonly createdAt: string;
 }
 
@@ -26,7 +31,7 @@ export interface CustodyBalance {
 }
 
 export type CustodyTransactionType = "deposit" | "withdrawal" | "allocation" | "transfer";
-export type CustodyTransactionStatus = "pending" | "completed" | "failed" | "cancelled";
+export type CustodyTransactionStatus = "draft" | "pending" | "pending_review" | "processing" | "completed" | "failed" | "cancelled" | "reversed";
 
 export interface CustodyTransaction {
   readonly id: string;
@@ -37,6 +42,11 @@ export interface CustodyTransaction {
   readonly status: CustodyTransactionStatus;
   readonly reference: string | null;
   readonly counterparty: string | null;
+  readonly memo?: string | null;
+  readonly destinationTag?: string | null;
+  readonly verificationState?: string | null;
+  readonly minimumDeposit?: number | null;
+  readonly requiredConfirmations?: number | null;
   readonly createdAt: string;
 }
 
@@ -54,6 +64,7 @@ export interface RequestWithdrawalParams {
   readonly network: string;
   readonly amount: number;
   readonly destination: string;
+  readonly idempotencyKey?: string;
 }
 
 /**

@@ -26,15 +26,15 @@ export interface OnboardingShellProps {
 export function OnboardingShell({ children, currentStepKey, completedStepKeys }: OnboardingShellProps) {
   return (
     <MotionConfig reducedMotion="user">
-      <div className="min-h-screen min-h-dvh flex flex-col bg-canvas">
+      <div className="flex min-h-screen min-h-dvh flex-col bg-canvas">
         <OnboardingHeader />
 
         {/* Mobile progress bar — hidden on desktop */}
         <OnboardingMobileProgress currentStepKey={currentStepKey} />
 
         {/* Workspace */}
-        <div className="flex flex-1 justify-center px-4 pb-12 pt-6 sm:px-6 md:px-8">
-          <div className="flex w-full max-w-[1120px] gap-10 md:gap-12">
+        <div className="flex flex-1 justify-center px-4 pb-[calc(env(safe-area-inset-bottom)+2rem)] pt-5 sm:px-6 md:px-8 md:pt-6">
+          <div className="flex w-full max-w-[1120px] gap-8 md:gap-10">
             {/* Left rail — desktop only */}
             <aside
               className="hidden md:flex md:w-[260px] lg:w-[280px] shrink-0 flex-col pt-1"

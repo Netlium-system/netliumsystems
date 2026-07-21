@@ -16,9 +16,9 @@ export default async function WalletPage() {
 
   if (!wallet) {
     return (
-      <div className="space-y-8 py-8">
+      <div className="space-y-5 sm:space-y-6">
         <div>
-          <h1 className="text-h1 font-semibold tracking-tight text-text-primary">Neptlium Wallet</h1>
+          <h1 className="text-[1.35rem] font-semibold leading-tight tracking-tight text-text-primary sm:text-2xl">Neptlium Wallet</h1>
         </div>
         <Card>
           <EmptyState
@@ -54,38 +54,57 @@ export default async function WalletPage() {
   ).flat();
 
   const cashBalance = balances.find((balance) => balance.asset === "USD")?.amount ?? 0;
-  const pendingCount = transactions.filter((transaction) => transaction.status === "pending").length;
+  const pendingCount = transactions.filter((transaction) => ["pending", "pending_review", "processing"].includes(transaction.status)).length;
+  const totalValue = balances.reduce((sum, balance) => sum + balance.amount, 0);
 
   return (
-    <div className="space-y-8 py-8">
+    <div className="space-y-5 sm:space-y-6">
       <div>
-        <h1 className="text-h1 font-semibold tracking-tight text-text-primary">Neptlium Wallet</h1>
-        <p className="mt-2 text-body text-text-secondary">
+        <h1 className="text-[1.35rem] font-semibold leading-tight tracking-tight text-text-primary sm:text-2xl">Neptlium Wallet</h1>
+        <p className="mt-2 text-sm leading-6 text-text-secondary">
           Institutional custody infrastructure for funding, transfers, and withdrawals
         </p>
       </div>
 
-      <div className="grid gap-6 md:grid-cols-3">
-        <StatCard label="Cash balance" value={`$${cashBalance.toFixed(2)}`} />
+      <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
+        <StatCard label="Total wallet value" value={`$${totalValue.toFixed(2)}`} />
         <StatCard label="Pending transactions" value={String(pendingCount)} />
-        <StatCard label="Deposit references" value={String(addresses.length)} />
+        <StatCard label="Deposit addresses" value={String(addresses.length)} />
       </div>
 
       <Card>
         <CardHeader className="flex-row items-center justify-between">
-          <CardTitle>Deposit references</CardTitle>
+          <CardTitle>Deposit</CardTitle>
           <GenerateAddressButton pairs={pairs} />
         </CardHeader>
         <CardContent>
           {addresses.length === 0 ? (
             <EmptyState
               icon={<WalletIcon className="size-5" aria-hidden="true" />}
-              title="No deposit references yet"
-              description="Generate one to fund your wallet via wire transfer."
+              title="No provider-assigned deposit address yet"
+              description="Crypto deposits are not enabled until a configured custody provider or authorized operations assignment creates an address."
             />
           ) : (
             <DepositAddressList addresses={addresses} />
           )}
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>Supported assets and networks</CardTitle>
+        </CardHeader>
+        <CardContent>
+          {pairs.length === 0 ? <p className="text-sm text-text-secondary">No provider-backed assets or networks are configured.</p> : <div className="flex flex-wrap gap-2">{pairs.map((pair) => <span key={`${pair.assetCode}-${pair.networkCode}`} className="rounded-full border border-border-default px-3 py-1 text-xs text-text-secondary">{pair.assetCode} · {pair.networkCode}</span>)}</div>}
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>Withdrawal-address book</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <EmptyState title="No verified withdrawal addresses" description="Add and verify a withdrawal address before requesting external withdrawals." />
         </CardContent>
       </Card>
 

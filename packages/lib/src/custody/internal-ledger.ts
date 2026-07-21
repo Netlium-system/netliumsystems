@@ -19,6 +19,11 @@ interface WalletTransactionRow {
   readonly status: CustodyTransaction["status"];
   readonly reference: string | null;
   readonly counterparty: string | null;
+  readonly memo?: string | null;
+  readonly destination_tag?: string | null;
+  readonly verification_state?: string | null;
+  readonly minimum_deposit?: number | string | null;
+  readonly required_confirmations?: number | null;
   readonly created_at: string;
 }
 
@@ -28,6 +33,11 @@ interface CustodyAddressRow {
   readonly network: string;
   readonly address: string;
   readonly status: CustodyAddress["status"];
+  readonly memo?: string | null;
+  readonly destination_tag?: string | null;
+  readonly verification_state?: string | null;
+  readonly minimum_deposit?: number | string | null;
+  readonly required_confirmations?: number | null;
   readonly created_at: string;
 }
 
@@ -52,6 +62,11 @@ function toAddress(row: CustodyAddressRow): CustodyAddress {
     network: row.network,
     address: row.address,
     status: row.status,
+    memo: row.memo ?? null,
+    destinationTag: row.destination_tag ?? null,
+    verificationState: row.verification_state ?? null,
+    minimumDeposit: row.minimum_deposit == null ? null : Number(row.minimum_deposit),
+    requiredConfirmations: row.required_confirmations ?? null,
     createdAt: row.created_at
   };
 }
@@ -60,9 +75,9 @@ function toAddress(row: CustodyAddressRow): CustodyAddress {
  * The only CustodyProvider implementation today. It is a real, persisted
  * ledger every balance is derived from committed rows in
  * wallet_transactions, never hardcoded but it has no connection to any
- * actual payment rail or blockchain. Deposit addresses are internal wire
- * funding references (e.g. NLM-7F3A9C2E), not blockchain addresses; funding
- * and withdrawals are recorded as pending and must be reconciled by
+ * actual payment rail or blockchain. Deposit addresses must come from a configured provider or authorized
+ * operations assignment; this provider will not fabricate blockchain
+ * destinations. Funding and withdrawals are recorded as pending and must be reconciled by
  * operations staff against the institution's actual bank activity today.
  * That reconciliation step is exactly what a future real custody/payments
  * integration would automate this class is what gets replaced then.
@@ -120,7 +135,7 @@ export class InternalLedgerCustodyProvider implements CustodyProvider {
   async listDepositAddresses(walletId: string): Promise<readonly CustodyAddress[]> {
     const { data, error } = await this.supabase
       .from("custody_addresses")
-      .select("id, asset, network, address, status, created_at")
+      .select("id, asset, network, address, status, memo, destination_tag, verification_state, minimum_deposit, required_confirmations, created_at")
       .eq("wallet_id", walletId)
       .order("created_at", { ascending: false });
 
@@ -129,23 +144,19 @@ export class InternalLedgerCustodyProvider implements CustodyProvider {
   }
 
   async provisionDepositAddress(params: ProvisionDepositAddressParams): Promise<CustodyAddress> {
-    const reference = "NLM-" + globalThis.crypto.randomUUID().slice(0, 8).toUpperCase();
-
-    const { data, error } = await this.supabase
+    const { data: existing, error: existingError } = await this.supabase
       .from("custody_addresses")
-      .insert({
-        wallet_id: params.walletId,
-        profile_id: params.profileId,
-        provider: this.id,
-        asset: params.asset,
-        network: params.network,
-        address: reference
-      })
-      .select("id, asset, network, address, status, created_at")
-      .single();
+      .select("id, asset, network, address, status, memo, destination_tag, verification_state, minimum_deposit, required_confirmations, created_at")
+      .eq("wallet_id", params.walletId)
+      .eq("profile_id", params.profileId)
+      .eq("asset", params.asset)
+      .eq("network", params.network)
+      .maybeSingle();
 
-    if (error) throw error;
-    return toAddress(data as CustodyAddressRow);
+    if (existingError) throw existingError;
+    if (existing) return toAddress(existing as CustodyAddressRow);
+
+    throw new Error("Deposit address provisioning requires a configured custody provider or authorized operations assignment.");
   }
 
   async requestWithdrawal(params: RequestWithdrawalParams): Promise<CustodyTransaction> {
@@ -158,8 +169,13 @@ export class InternalLedgerCustodyProvider implements CustodyProvider {
         asset: params.asset,
         network: params.network,
         amount: params.amount,
-        status: "pending",
-        counterparty: params.destination
+        status: "pending_review",
+        counterparty: params.destination,
+        gross_amount: params.amount,
+        fee_amount: 0,
+        net_amount: params.amount,
+        source_wallet_id: params.walletId,
+        idempotency_key: params.idempotencyKey
       })
       .select("id, type, asset, network, amount, status, reference, counterparty, created_at")
       .single();

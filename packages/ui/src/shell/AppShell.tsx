@@ -1,39 +1,30 @@
 import type { ReactElement, ReactNode } from "react";
 
-/**
- * AppShell — The institutional UI container for Netlium Systems.
- *
- * Provides the base layout structure:
- * - Sidebar navigation
- * - Main content area
- * - Institutional branding
- *
- * All pages should render within this shell for consistency.
- */
 export interface AppShellProps {
   readonly children: ReactNode;
   readonly sidebar?: ReactNode;
   readonly header?: ReactNode;
+  readonly mobileNavigation?: ReactNode;
 }
 
-export function AppShell({ children, sidebar, header }: AppShellProps): ReactElement {
+export function AppShell({ children, sidebar, header, mobileNavigation }: AppShellProps): ReactElement {
   return (
-    <div className="flex min-h-screen flex-col bg-canvas text-text-primary md:flex-row">
-      <aside className="w-full shrink-0 border-b border-border-hairline bg-sidebar p-4 md:w-[280px] md:border-b-0 md:border-r md:p-5">
-        <div className="mb-4 px-1 text-body-sm font-semibold tracking-tight text-text-secondary md:mb-8">
-          Netlium
-        </div>
+    <div className="min-h-screen min-h-dvh bg-canvas text-text-primary">
+      <div className="pointer-events-none fixed inset-0 -z-10 bg-[radial-gradient(ellipse_at_top_left,rgba(11,140,255,0.13),transparent_34%),radial-gradient(ellipse_at_top_right,rgba(84,55,255,0.08),transparent_30%)]" />
+      <div className="flex min-h-screen min-h-dvh">
         {sidebar && (
-          <nav className="flex gap-1.5 overflow-x-auto md:block md:space-y-1 md:overflow-visible">{sidebar}</nav>
+          <aside className="sticky top-0 hidden h-dvh w-56 shrink-0 border-r border-border-hairline bg-sidebar/96 px-3 py-4 lg:block xl:w-60">
+            {sidebar}
+          </aside>
         )}
-      </aside>
-
-      <div className="flex flex-1 flex-col overflow-hidden">
-        {header}
-        <main className="flex-1 overflow-auto p-6 md:p-8">
-          <div className="mx-auto w-full max-w-[1440px]">{children}</div>
-        </main>
+        <div className="flex min-w-0 flex-1 flex-col">
+          {header}
+          <main className="flex-1 overflow-x-hidden px-4 pb-[calc(env(safe-area-inset-bottom)+6rem)] pt-5 sm:px-6 md:px-7 lg:px-8 lg:pb-8">
+            <div className="mx-auto w-full max-w-[1600px]">{children}</div>
+          </main>
+        </div>
       </div>
+      {mobileNavigation}
     </div>
   );
 }
