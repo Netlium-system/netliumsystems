@@ -9,61 +9,94 @@ interface MegaMenuProps {
 }
 
 /**
- * Stripe-inspired mega menu panel. Rendered inside the desktop header
- * dropdown; positioning is controlled by the parent.
+ * Coinbase-style institutional mega menu.
+ *
+ * Layout:
+ *  ┌──────────────────────────────┬──────────────────┐
+ *  │  eyebrow + description       │  featured panel  │
+ *  │  ─────────────────────────   │  (grid pattern)  │
+ *  │  [col 1 items] [col 2 items] │                  │
+ *  ├──────────────────────────────┴──────────────────┤
+ *  │  footer strip: quick links                      │
+ *  └─────────────────────────────────────────────────┘
  */
 export const MegaMenu = ({ entry, onNavigate }: MegaMenuProps) => {
   if (!entry.mega) return null;
   const { mega } = entry;
-  const hasFooter = Boolean(mega.footer);
 
   return (
     <div
-      className="overflow-hidden rounded-xl border border-border bg-panel/95 shadow-elevated backdrop-blur-xl"
+      className="overflow-hidden rounded-xl border border-border"
+      style={{
+        background: "hsl(var(--panel))",
+        boxShadow:
+          "0 24px 64px -24px rgba(0,0,0,0.9), 0 0 0 1px rgba(255,255,255,0.04) inset",
+        backdropFilter: "blur(24px)",
+      }}
       role="menu"
     >
-      <div
-        className={cn(
-          "grid",
-          hasFooter ? "lg:grid-cols-[1.6fr,1fr]" : "lg:grid-cols-1"
-        )}
-      >
-        {/* Left: groups */}
-        <div className="p-6 sm:p-8">
-          <div className="mb-6">
-            <div className="text-[10px] font-semibold uppercase tracking-[0.2em] text-primary">
+      <div className={cn("grid", mega.footer ? "lg:grid-cols-[1fr,280px]" : "lg:grid-cols-1")}>
+        {/* ── Left: groups ─────────────────────────── */}
+        <div className="p-7 sm:p-8">
+          {/* Eyebrow */}
+          <div className="mb-5">
+            <div
+              className="text-[10px] font-bold uppercase tracking-[0.22em]"
+              style={{ color: "hsl(var(--primary))" }}
+            >
               {mega.title}
             </div>
-            <p className="mt-1 text-sm text-muted-foreground">
+            <p
+              className="mt-0.5 text-[13px] leading-relaxed"
+              style={{ color: "hsl(var(--muted-foreground))" }}
+            >
               {mega.description}
             </p>
           </div>
 
-          <div className="grid gap-x-6 gap-y-6 sm:grid-cols-2">
+          {/* Item grid */}
+          <div className="grid gap-x-8 gap-y-2 sm:grid-cols-2">
             {mega.groups.map((group, gi) => (
-              <div key={gi} className="space-y-1">
+              <div key={gi}>
                 {group.heading && (
-                  <div className="mb-2 text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+                  <div
+                    className="mb-2 text-[10px] font-bold uppercase tracking-[0.2em]"
+                    style={{ color: "hsl(var(--muted-foreground)/0.55)" }}
+                  >
                     {group.heading}
                   </div>
                 )}
-                <ul className="space-y-1">
+                <ul className="space-y-0.5">
                   {group.items.map((item) => (
                     <li key={item.label}>
                       <Link
                         href={item.to}
                         onClick={onNavigate}
-                        className="group flex items-start gap-3 rounded-md p-2.5 transition-colors hover:bg-elevated"
                         role="menuitem"
+                        className="group/item flex items-start gap-3.5 rounded-lg p-3 transition-colors duration-150 hover:bg-elevated"
                       >
-                        <span className="mt-0.5 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-md border border-border bg-background/60 text-primary transition-colors group-hover:border-primary/40">
-                          <item.icon className="h-4 w-4" />
+                        {/* Icon */}
+                        <span
+                          className="mt-0.5 flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-lg border border-border transition-colors duration-150 group-hover/item:border-[hsl(var(--primary)/0.3)] group-hover/item:bg-[hsl(var(--primary)/0.08)]"
+                          style={{ background: "hsl(var(--elevated))" }}
+                        >
+                          <item.icon
+                            className="h-4 w-4 transition-colors duration-150 group-hover/item:text-[hsl(var(--primary))]"
+                            style={{ color: "hsl(var(--muted-foreground))" }}
+                          />
                         </span>
-                        <span className="min-w-0">
-                          <span className="block text-sm font-medium text-foreground">
+                        {/* Text */}
+                        <span className="min-w-0 pt-0.5">
+                          <span
+                            className="block text-[0.9rem] font-medium leading-tight"
+                            style={{ color: "hsl(var(--foreground))" }}
+                          >
                             {item.label}
                           </span>
-                          <span className="mt-0.5 block text-xs leading-relaxed text-muted-foreground">
+                          <span
+                            className="mt-1 block text-[0.8125rem] leading-snug"
+                            style={{ color: "hsl(var(--muted-foreground))" }}
+                          >
                             {item.description}
                           </span>
                         </span>
@@ -76,33 +109,82 @@ export const MegaMenu = ({ entry, onNavigate }: MegaMenuProps) => {
           </div>
         </div>
 
-        {/* Right: footer panel */}
+        {/* ── Right: featured panel ─────────────────── */}
         {mega.footer && (
-          <div className="relative border-t border-border bg-elevated/60 p-6 sm:p-8 lg:border-l lg:border-t-0">
-            <div className="absolute inset-0 grid-pattern opacity-40" />
+          <div
+            className="relative flex flex-col border-l border-border p-7 sm:p-8"
+            style={{ background: "hsl(var(--elevated))" }}
+          >
+            {/* Blueprint grid overlay */}
+            <div className="ds-grid-pattern absolute inset-0 rounded-r-xl opacity-30" />
+            {/* Glow */}
+            <div
+              className="pointer-events-none absolute -top-10 right-0 h-40 w-40 rounded-full blur-3xl"
+              style={{ background: "hsl(var(--primary)/0.10)" }}
+            />
+
             <div className="relative flex h-full flex-col">
-              <div className="text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+              <div
+                className="text-[10px] font-bold uppercase tracking-[0.22em]"
+                style={{ color: "hsl(var(--muted-foreground)/0.6)" }}
+              >
                 Featured
               </div>
-              <h4 className="mt-2 text-base font-semibold text-foreground">
+              <h4
+                className="mt-2 text-[1.0625rem] font-semibold leading-snug"
+                style={{ color: "hsl(var(--foreground))" }}
+              >
                 {mega.footer.title}
               </h4>
-              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+              <p
+                className="mt-2.5 text-[0.8125rem] leading-relaxed"
+                style={{ color: "hsl(var(--muted-foreground))" }}
+              >
                 {mega.footer.description}
               </p>
-              <div className="mt-auto pt-6">
+
+              <div className="mt-auto pt-8">
                 <Link
                   href={mega.footer.to}
                   onClick={onNavigate}
-                  className="group inline-flex items-center gap-2 text-sm font-medium text-foreground hover:text-primary"
+                  className="group/feat inline-flex items-center gap-2 text-[0.9rem] font-semibold transition-colors duration-150 hover:text-[hsl(var(--primary))]"
+                  style={{ color: "hsl(var(--foreground))" }}
                 >
                   {mega.footer.cta}
-                  <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                  <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover/feat:translate-x-1" />
                 </Link>
               </div>
             </div>
           </div>
         )}
+      </div>
+
+      {/* ── Bottom strip: quick links ─────────────── */}
+      <div
+        className="flex items-center gap-1 border-t border-border px-7 py-3"
+        style={{ background: "hsl(var(--background)/0.5)" }}
+      >
+        <span
+          className="text-[11px] font-medium uppercase tracking-widest"
+          style={{ color: "hsl(var(--muted-foreground)/0.45)" }}
+        >
+          Quick links
+        </span>
+        <div className="mx-3 h-px flex-1" style={{ background: "hsl(var(--border))" }} />
+        {mega.groups
+          .flatMap((g) => g.items)
+          .slice(0, 3)
+          .map((item) => (
+            <Link
+              key={item.label}
+              href={item.to}
+              onClick={onNavigate}
+              className="rounded-md px-3 py-1.5 text-[12px] font-medium transition-colors duration-150 hover:bg-elevated hover:text-[hsl(var(--foreground))]"
+              style={{ color: "hsl(var(--muted-foreground))" }}
+            >
+              {item.label}
+            </Link>
+          ))}
       </div>
     </div>
   );

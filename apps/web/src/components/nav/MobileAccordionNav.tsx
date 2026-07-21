@@ -132,8 +132,11 @@ export const MobileAccordionNav = ({ onNavigate, onClose }: MobileAccordionNavPr
       {/* Bottom CTAs */}
       <div className="border-t border-border bg-panel px-6 py-5">
         <div className="flex flex-col gap-2.5">
-          <CTAButton href={APP_URLS.signup} variant="primary" size="md" showArrow>
-            Institutional Access
+          <CTAButton href={APP_URLS.signUp} variant="primary" size="md">
+            Sign up
+          </CTAButton>
+          <CTAButton href={APP_URLS.signIn} variant="outline" size="md">
+            Sign in
           </CTAButton>
         </div>
       </div>

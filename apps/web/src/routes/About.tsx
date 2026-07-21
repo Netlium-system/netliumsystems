@@ -64,7 +64,7 @@ const About = () => {
           </div>
 
           <div className="flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
-            <CTAButton href={APP_URLS.signup} size="lg" showArrow>
+            <CTAButton href={APP_URLS.signUp} size="lg" showArrow>
               Become a Member
             </CTAButton>
             <CTAButton href="/contact" variant="secondary" size="lg" showArrow>

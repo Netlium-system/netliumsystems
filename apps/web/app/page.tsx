@@ -79,8 +79,8 @@ const Home = () => {
                   className="mt-9 flex animate-fade-up flex-col items-start gap-3 sm:flex-row"
                   style={{ animationDelay: "240ms" }}
                 >
-                  <CTAButton href={APP_URLS.signup} size="lg" showArrow>
-                    Institutional Access
+                  <CTAButton href={APP_URLS.signUp} size="lg" showArrow>
+                    Sign up
                   </CTAButton>
                 </div>
 
@@ -183,7 +183,7 @@ const Home = () => {
               ))}
             </ul>
             <div className="mt-9">
-              <CTAButton href={APP_URLS.login} showArrow>
+              <CTAButton href={APP_URLS.signIn} showArrow>
                 Open Payment Console
               </CTAButton>
             </div>
@@ -472,7 +472,7 @@ const Home = () => {
               <CTAButton href={APP_URLS.app} size="lg" showArrow>
                 Launch Neptlium
               </CTAButton>
-              <CTAButton href={APP_URLS.login} variant="secondary" size="lg">
+              <CTAButton href={APP_URLS.signIn} variant="secondary" size="lg">
                 Access Platform
               </CTAButton>
             </div>

@@ -59,12 +59,20 @@ export const Footer = () => {
           </div>
           <div className="flex gap-4">
             <a
-              href={APP_URLS.signup}
+              href={APP_URLS.signIn}
               target="_blank"
               rel="noopener noreferrer"
               className="hover:text-foreground"
             >
-              Institutional Access
+              Sign in
+            </a>
+            <a
+              href={APP_URLS.signUp}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-foreground"
+            >
+              Sign up
             </a>
             <Link href="/contact" className="hover:text-foreground">
               Contact

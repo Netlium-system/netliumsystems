@@ -128,7 +128,7 @@ const Contact = () => {
               </p>
               <div className="mt-4">
                 <CTAButton
-                  href={APP_URLS.signup}
+                  href={APP_URLS.signUp}
                   variant="primary"
                   size="sm"
                   showArrow

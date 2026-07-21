@@ -2,12 +2,22 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Shared Neptlium design tokens and utility classes */
+/* Shared Neptlium design tokens (same source as apps/app) */
 @import "@neptlium/design-system/tokens.css";
 @import "@neptlium/design-system/utilities.css";
 
 /* ---------------------------------------------------------------------------
- * Base resets — web-specific
+ * Compat shim: apps/app uses --color-accent-primary; Tailwind v3 components
+ * use hsl(var(--primary)). Both resolve to the same Neptlium Blue #0B8CFF.
+ * accent-emerald is a legacy alias kept for any component that still references
+ * it — maps to primary (blue, not green).
+ * ------------------------------------------------------------------------- */
+:root {
+  --accent-emerald: var(--primary);
+}
+
+/* ---------------------------------------------------------------------------
+ * Base resets — identical intent to apps/app global.css
  * ------------------------------------------------------------------------- */
 @layer base {
   * {
@@ -22,13 +32,15 @@
   }
 
   html {
+    color-scheme: dark;
     scroll-behavior: smooth;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
 
   body {
-    @apply bg-background text-foreground font-body;
+    @apply bg-background text-foreground;
+    font-family: var(--font-body);
     font-feature-settings: "ss01", "cv11";
   }
 
@@ -42,7 +54,21 @@
   }
 
   ::selection {
-    background: hsl(217 91% 60% / 0.3);
-    color: hsl(0 0% 100%);
+    background: hsl(var(--primary) / 0.28);
+    color: hsl(var(--foreground));
+  }
+
+  /* Scrollbar — matches apps/app */
+  *::-webkit-scrollbar {
+    width: 10px;
+  }
+  *::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  *::-webkit-scrollbar-thumb {
+    background-color: hsl(var(--border));
+    border-radius: 9999px;
+    border: 3px solid transparent;
+    background-clip: content-box;
   }
 }

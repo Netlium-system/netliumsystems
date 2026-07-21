@@ -91,7 +91,7 @@ const Platform = () => {
               engine.
             </p>
             <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
-              <CTAButton href={APP_URLS.signup} size="lg" showArrow>
+              <CTAButton href={APP_URLS.signUp} size="lg" showArrow>
                 Become a Member
               </CTAButton>
               <CTAButton

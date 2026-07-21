@@ -29,7 +29,11 @@ const APP_BASE = "https://app.neptlium.com";
 
 export const APP_URLS = {
   app: APP_BASE,
-  signup: `${APP_BASE}/request-access`,
+  signUp: `${APP_BASE}/sign-up`,
+  signIn: `${APP_BASE}/login`,
+  /** @deprecated use signUp */
+  signup: `${APP_BASE}/sign-up`,
+  /** @deprecated use signIn */
   login: `${APP_BASE}/login`,
   dashboard: `${APP_BASE}/dashboard`,
   demo: "/contact",
