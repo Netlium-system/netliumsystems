@@ -3,7 +3,7 @@
 import { useActionState, useEffect, useState } from "react";
 import type { FormEvent } from "react";
 import Link from "next/link";
-import { ArrowLeft, Eye, EyeOff, Mail, ShieldCheck } from "lucide-react";
+import { ArrowLeft, Eye, EyeOff, Mail } from "lucide-react";
 import { Button, Field, FieldError, Input, Label } from "@netlium/ui";
 import { resendVerification, signup, verifyEmailOtp } from "../actions";
 import { emailPattern, passwordPattern } from "../auth-utils";
@@ -14,14 +14,43 @@ import { PasswordRequirements } from "../components/PasswordRequirements";
 import { OtpInput } from "../components/OtpInput";
 
 const inputClass =
-  "h-12 rounded-md border-[color:var(--color-border-default)] bg-[color:var(--color-surface-1)] pl-10 transition-[border-color,box-shadow] focus:border-[color:var(--color-border-focus)] focus:shadow-[var(--shadow-focus-ring)]";
+  "h-11 rounded-md border-[color:var(--color-border-default)] bg-[color:var(--color-surface-1)] pl-10 transition-[border-color,box-shadow] focus:border-[color:var(--color-border-focus)] focus:shadow-[var(--shadow-focus-ring)]";
 
 const inputClassPlain =
-  "h-12 rounded-md border-[color:var(--color-border-default)] bg-[color:var(--color-surface-1)] transition-[border-color,box-shadow] focus:border-[color:var(--color-border-focus)] focus:shadow-[var(--shadow-focus-ring)]";
+  "h-11 rounded-md border-[color:var(--color-border-default)] bg-[color:var(--color-surface-1)] transition-[border-color,box-shadow] focus:border-[color:var(--color-border-focus)] focus:shadow-[var(--shadow-focus-ring)]";
 
-const ctaClass = "h-12 w-full rounded-full text-[15px] font-semibold";
+const ctaClass = "h-11 w-full rounded-md text-[14px] font-semibold";
 
 type Step = "identity" | "credentials" | "verify";
+
+/**
+ * Back button slot — always rendered to reserve vertical space.
+ * Invisible on step "identity" so the heading never shifts down on step change.
+ */
+function BackSlot({
+  visible,
+  onClick,
+  label
+}: {
+  visible: boolean;
+  onClick: () => void;
+  label: string;
+}) {
+  return (
+    <div className="mb-6 h-7">
+      {visible && (
+        <button
+          type="button"
+          onClick={onClick}
+          className="flex items-center gap-1.5 text-[12px] font-medium text-text-muted hover:text-text-secondary"
+        >
+          <ArrowLeft className="size-3.5" aria-hidden="true" />
+          {label}
+        </button>
+      )}
+    </div>
+  );
+}
 
 export function SignupForm() {
   const [signupState, signupAction, isSigningUp] = useActionState(
@@ -94,33 +123,23 @@ export function SignupForm() {
   if (step === "verify") {
     return (
       <AuthShell>
-        <button
-          type="button"
-          onClick={() => setStep("credentials")}
-          className="mb-10 flex items-center gap-2 text-[13px] text-text-muted hover:text-text-secondary"
-        >
-          <ArrowLeft className="size-4" aria-hidden="true" />
-          Back
-        </button>
+        <BackSlot visible onClick={() => setStep("credentials")} label="Back" />
 
-        <div className="flex flex-col gap-8">
-          <div className="space-y-3">
-            <div className="flex size-11 items-center justify-center rounded-full bg-[color:var(--color-accent-primary)]/10">
-              <ShieldCheck className="size-5 text-[color:var(--color-accent-primary)]" aria-hidden="true" />
-            </div>
-            <h1 className="text-[32px] font-semibold leading-[1.1] tracking-tight text-text-primary">
+        <div className="flex flex-col gap-6">
+          {/* Heading — same size as all other steps */}
+          <div className="space-y-1.5">
+            <h1 className="text-[24px] font-semibold tracking-[-0.02em] text-text-primary">
               Verify your email
             </h1>
-            <p className="text-[15px] text-text-muted">
+            <p className="text-[13px] leading-relaxed text-text-muted">
               We sent a 6-digit code to{" "}
-              <span className="font-medium text-text-primary">{email}</span>.
-              Enter it below to confirm your account.
+              <span className="font-medium text-text-secondary">{email}</span>.
             </p>
           </div>
 
-          <form action={otpAction} className="flex flex-col gap-6">
+          <form action={otpAction} className="flex flex-col gap-5">
             <input type="hidden" name="email" value={email} />
-            <div className="space-y-3">
+            <div className="space-y-2">
               <OtpInput name="token" disabled={isVerifying} hasError={Boolean(otpState.error)} />
               {otpState.error && (
                 <FieldError id="otp-error">{otpState.error}</FieldError>
@@ -131,14 +150,14 @@ export function SignupForm() {
             </Button>
           </form>
 
-          <div className="flex flex-col gap-3 border-t border-[color:var(--color-border-hairline)] pt-6">
-            <p className="text-[13px] text-text-muted">Did not receive a code?</p>
+          <div className="space-y-3 border-t border-[color:var(--color-border-hairline)] pt-5">
+            <p className="text-[12px] text-text-muted">Didn&apos;t receive a code?</p>
             <form action={resendAction} onSubmit={() => setCooldown(60)}>
               <input type="hidden" name="email" value={email} />
               <Button
                 type="submit"
                 variant="outline"
-                className="h-10 w-full rounded-full text-[14px]"
+                className="h-9 w-full rounded-md text-[13px]"
                 loading={isResending}
                 disabled={cooldown > 0 || isResending}
               >
@@ -151,7 +170,7 @@ export function SignupForm() {
             {resendState.error && <AuthNotice>{resendState.error}</AuthNotice>}
             <button
               type="button"
-              className="text-center text-[13px] text-accent-primary hover:brightness-110"
+              className="w-full text-center text-[12px] text-accent-primary hover:brightness-110"
               onClick={() => { setEmail(""); setStep("identity"); }}
             >
               Use a different email
@@ -165,19 +184,20 @@ export function SignupForm() {
   if (step === "identity") {
     return (
       <AuthShell>
-        <div className="flex flex-col gap-8">
-          <div className="space-y-2">
-            <h1 className="text-[36px] font-semibold leading-[1.1] tracking-tight text-text-primary sm:text-[40px]">
-              Create your
-              <br />
-              Neptlium Account
+        {/* Reserved slot — invisible on step 1, keeps layout stable */}
+        <BackSlot visible={false} onClick={() => {}} label="" />
+
+        <div className="flex flex-col gap-6">
+          <div className="space-y-1.5">
+            <h1 className="text-[24px] font-semibold tracking-[-0.02em] text-text-primary">
+              Create your account
             </h1>
-            <p className="text-[15px] text-text-muted">
+            <p className="text-[13px] text-text-muted">
               Begin your institutional capital workspace.
             </p>
           </div>
 
-          <form onSubmit={handleIdentityContinue} className="flex flex-col gap-5">
+          <form onSubmit={handleIdentityContinue} className="flex flex-col gap-4">
             <div className="grid grid-cols-2 gap-3">
               <Field>
                 <Label htmlFor="signup-first-name">First name</Label>
@@ -187,7 +207,7 @@ export function SignupForm() {
                   type="text"
                   autoFocus
                   autoComplete="given-name"
-                  placeholder="First name"
+                  placeholder="First"
                   value={firstName}
                   onChange={(e) => { setFirstName(e.target.value); if (identityError) setIdentityError(null); }}
                   aria-invalid={Boolean(identityError)}
@@ -201,7 +221,7 @@ export function SignupForm() {
                   name="lastName"
                   type="text"
                   autoComplete="family-name"
-                  placeholder="Last name"
+                  placeholder="Last"
                   value={lastName}
                   onChange={(e) => { setLastName(e.target.value); if (identityError) setIdentityError(null); }}
                   aria-invalid={Boolean(identityError)}
@@ -214,7 +234,7 @@ export function SignupForm() {
               <Label htmlFor="signup-email">Email address</Label>
               <div className="relative">
                 <Mail
-                  className="pointer-events-none absolute left-3 top-1/2 size-[15px] -translate-y-1/2 text-text-muted"
+                  className="pointer-events-none absolute left-3 top-1/2 size-[14px] -translate-y-1/2 text-text-muted"
                   aria-hidden="true"
                 />
                 <Input
@@ -239,7 +259,7 @@ export function SignupForm() {
             </Button>
           </form>
 
-          <p className="text-center text-[14px] text-text-muted">
+          <p className="text-center text-[13px] text-text-muted">
             Already have an account?{" "}
             <Link href="/login" className="font-medium text-accent-primary hover:brightness-110">
               Sign in
@@ -250,29 +270,23 @@ export function SignupForm() {
     );
   }
 
+  // Step: credentials
   return (
     <AuthShell>
-      <button
-        type="button"
-        onClick={() => setStep("identity")}
-        className="mb-10 flex items-center gap-2 text-[13px] text-text-muted hover:text-text-secondary"
-      >
-        <ArrowLeft className="size-4" aria-hidden="true" />
-        Back
-      </button>
+      <BackSlot visible onClick={() => setStep("identity")} label="Back" />
 
-      <div className="flex flex-col gap-8">
-        <div className="space-y-2">
-          <h1 className="text-[32px] font-semibold leading-[1.1] tracking-tight text-text-primary">
+      <div className="flex flex-col gap-6">
+        <div className="space-y-1.5">
+          <h1 className="text-[24px] font-semibold tracking-[-0.02em] text-text-primary">
             Secure your account
           </h1>
-          <p className="text-[15px] text-text-muted">
+          <p className="text-[13px] text-text-muted">
             Create a password for{" "}
-            <span className="font-medium text-text-primary">{email}</span>.
+            <span className="font-medium text-text-secondary">{email}</span>.
           </p>
         </div>
 
-        <form action={signupAction} onSubmit={handleCredentialSubmit} className="flex flex-col gap-5">
+        <form action={signupAction} onSubmit={handleCredentialSubmit} className="flex flex-col gap-4">
           <input type="hidden" name="firstName" value={firstName} />
           <input type="hidden" name="lastName" value={lastName} />
           <input type="hidden" name="email" value={email} />
@@ -291,7 +305,7 @@ export function SignupForm() {
                 onChange={(e) => { setPassword(e.target.value); if (credentialError) setCredentialError(null); }}
                 aria-invalid={Boolean(credentialError)}
                 aria-describedby="signup-password-requirements"
-                className="h-12 rounded-md border-[color:var(--color-border-default)] bg-[color:var(--color-surface-1)] pr-10 transition-[border-color,box-shadow] focus:border-[color:var(--color-border-focus)] focus:shadow-[var(--shadow-focus-ring)]"
+                className="h-11 rounded-md border-[color:var(--color-border-default)] bg-[color:var(--color-surface-1)] pr-10 transition-[border-color,box-shadow] focus:border-[color:var(--color-border-focus)] focus:shadow-[var(--shadow-focus-ring)]"
               />
               <button
                 type="button"
@@ -300,7 +314,7 @@ export function SignupForm() {
                 aria-label={showPassword ? "Hide password" : "Show password"}
                 className="absolute right-3 top-1/2 -translate-y-1/2 text-text-muted hover:text-text-secondary"
               >
-                {showPassword ? <EyeOff className="size-4" aria-hidden="true" /> : <Eye className="size-4" aria-hidden="true" />}
+                {showPassword ? <EyeOff className="size-3.5" aria-hidden="true" /> : <Eye className="size-3.5" aria-hidden="true" />}
               </button>
             </div>
             <div id="signup-password-requirements">
@@ -321,7 +335,7 @@ export function SignupForm() {
                 onChange={(e) => { setConfirmPassword(e.target.value); if (credentialError) setCredentialError(null); }}
                 aria-invalid={Boolean(credentialError)}
                 aria-describedby="signup-credential-error"
-                className="h-12 rounded-md border-[color:var(--color-border-default)] bg-[color:var(--color-surface-1)] pr-10 transition-[border-color,box-shadow] focus:border-[color:var(--color-border-focus)] focus:shadow-[var(--shadow-focus-ring)]"
+                className="h-11 rounded-md border-[color:var(--color-border-default)] bg-[color:var(--color-surface-1)] pr-10 transition-[border-color,box-shadow] focus:border-[color:var(--color-border-focus)] focus:shadow-[var(--shadow-focus-ring)]"
               />
               <button
                 type="button"
@@ -330,7 +344,7 @@ export function SignupForm() {
                 aria-label={showConfirm ? "Hide password" : "Show password"}
                 className="absolute right-3 top-1/2 -translate-y-1/2 text-text-muted hover:text-text-secondary"
               >
-                {showConfirm ? <EyeOff className="size-4" aria-hidden="true" /> : <Eye className="size-4" aria-hidden="true" />}
+                {showConfirm ? <EyeOff className="size-3.5" aria-hidden="true" /> : <Eye className="size-3.5" aria-hidden="true" />}
               </button>
             </div>
             <FieldError id="signup-credential-error">
@@ -338,7 +352,7 @@ export function SignupForm() {
             </FieldError>
           </Field>
 
-          <label className="flex cursor-pointer items-start gap-3 text-[13px] text-text-muted">
+          <label className="flex cursor-pointer items-start gap-2.5 text-[12px] text-text-muted">
             <input
               type="checkbox"
               name="acceptedTerms"
@@ -346,7 +360,7 @@ export function SignupForm() {
               checked={acceptedTerms}
               onChange={(e) => { setAcceptedTerms(e.target.checked); if (credentialError) setCredentialError(null); }}
               aria-required="true"
-              className="mt-0.5 size-4 accent-[--color-accent-primary]"
+              className="mt-0.5 size-3.5 accent-[--color-accent-primary]"
             />
             <span>
               I agree to the{" "}

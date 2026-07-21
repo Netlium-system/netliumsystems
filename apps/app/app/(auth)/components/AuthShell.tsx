@@ -13,10 +13,10 @@ export interface AuthShellProps {
 /**
  * Auth shell layout.
  *
- * - Neptlium mark top-left, no text beside it.
- * - Content column: centered, 420px max-width, responsive padding.
- * - Trust footer at the bottom.
- * - Form sits directly on the background — no outer card boundary.
+ * Content is top-anchored (not vertically centered) so that step transitions
+ * — which change content height — never shift the heading up or down.
+ * The wordmark sits in a fixed-height bar; the form column starts at a
+ * consistent offset below it on every step.
  */
 export function AuthShell({ children }: AuthShellProps) {
   return (
@@ -24,21 +24,21 @@ export function AuthShell({ children }: AuthShellProps) {
       <div className="relative isolate flex min-h-screen min-h-dvh flex-col px-6 py-10 sm:px-10">
         <AuthBackground />
 
-        {/* Top-left wordmark */}
-        <div className="mb-12 flex w-full max-w-[560px] self-start items-center gap-3 sm:mb-14">
-          <NeptliumMark size={36} />
-          <span className="text-[15px] font-semibold tracking-[0.12em] text-text-primary uppercase select-none">
+        {/* Wordmark — fixed 40px height, never shifts */}
+        <div className="flex h-10 shrink-0 items-center gap-2.5">
+          <NeptliumMark size={30} />
+          <span className="select-none text-[13px] font-semibold uppercase tracking-[0.12em] text-text-primary">
             NEPTLIUM
           </span>
         </div>
 
-        {/* Content */}
-        <div className="flex flex-1 items-center justify-center">
-          <div className="w-full max-w-[420px]">{children}</div>
+        {/* Form column — top-anchored with fixed offset, never vertically centered */}
+        <div className="mx-auto w-full max-w-[420px] pt-14">
+          {children}
         </div>
 
-        {/* Trust footer */}
-        <div className="mt-12 flex w-full justify-center">
+        {/* Trust footer — pushed to bottom */}
+        <div className="mt-auto flex w-full justify-center pt-10">
           <TrustFooter />
         </div>
       </div>

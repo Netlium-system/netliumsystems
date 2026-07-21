@@ -18,10 +18,10 @@ import { AuthShell } from "../components/AuthShell";
 import { AuthNotice } from "../components/AuthNotice";
 
 const emailInputClass =
-  "h-12 rounded-md border-[color:var(--color-border-default)] bg-[color:var(--color-surface-1)] pl-10 transition-[border-color,box-shadow] focus:border-[color:var(--color-border-focus)] focus:shadow-[var(--shadow-focus-ring)]";
+  "h-11 rounded-md border-[color:var(--color-border-default)] bg-[color:var(--color-surface-1)] pl-10 transition-[border-color,box-shadow] focus:border-[color:var(--color-border-focus)] focus:shadow-[var(--shadow-focus-ring)]";
 const passwordInputClass =
-  "h-12 rounded-md border-[color:var(--color-border-default)] bg-[color:var(--color-surface-1)] transition-[border-color,box-shadow] focus:border-[color:var(--color-border-focus)] focus:shadow-[var(--shadow-focus-ring)]";
-const ctaClass = "h-12 w-full rounded-full text-[15px] font-semibold";
+  "h-11 rounded-md border-[color:var(--color-border-default)] bg-[color:var(--color-surface-1)] transition-[border-color,box-shadow] focus:border-[color:var(--color-border-focus)] focus:shadow-[var(--shadow-focus-ring)]";
+const ctaClass = "h-11 w-full rounded-md text-[14px] font-semibold";
 
 export function LoginForm({
   next,
@@ -43,19 +43,19 @@ export function LoginForm({
 
   return (
     <AuthShell>
-      <div className="flex flex-col gap-8">
-        <div className="space-y-2">
-          <h1 className="text-[36px] font-semibold leading-[1.1] tracking-tight text-text-primary sm:text-[40px]">
-            Sign in to
-            <br />
-            Neptlium
+      <div className="flex flex-col gap-6">
+        <div className="mb-6 h-7" />
+
+        <div className="space-y-1.5">
+          <h1 className="text-[24px] font-semibold tracking-[-0.02em] text-text-primary">
+            Sign in to Neptlium
           </h1>
-          <p className="text-[15px] text-text-muted">
+          <p className="text-[13px] text-text-muted">
             Institutional Capital Operating System
           </p>
         </div>
 
-        <form action={formAction} className="flex flex-col gap-5">
+        <form action={formAction} className="flex flex-col gap-4">
           <input type="hidden" name="next" value={next ?? ""} />
           {callbackFailed && (
             <AuthNotice>
@@ -123,7 +123,7 @@ export function LoginForm({
           </Button>
         </form>
 
-        <p className="text-center text-[14px] text-text-muted">
+        <p className="text-center text-[13px] text-text-muted">
           Don&apos;t have an account?{" "}
           <Link
             href="/signup"
