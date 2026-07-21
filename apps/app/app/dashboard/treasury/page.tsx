@@ -1,19 +1,18 @@
 import { Landmark } from "lucide-react";
-import { Card, CardHeader, CardTitle, EmptyState, StatCard } from "@netlium/ui";
+import { Card, CardHeader, CardTitle, EmptyState } from "@netlium/ui";
 import type { TreasuryAccount } from "@netlium/types";
 import { requireRole } from "@/lib/auth";
 
-// Placeholder data
 const treasuryAccounts: readonly TreasuryAccount[] = [];
 
 export default async function TreasuryPage() {
   await requireRole("operator");
 
   return (
-    <div className="space-y-8 py-8">
+    <div className="space-y-5 sm:space-y-6">
       <div>
-        <h1 className="text-h1 font-semibold tracking-tight text-text-primary">Treasury Operations</h1>
-        <p className="mt-2 text-body text-text-secondary">
+        <h1 className="text-[1.35rem] font-semibold leading-tight tracking-tight text-text-primary sm:text-2xl">Treasury Operations</h1>
+        <p className="mt-2 text-sm leading-6 text-text-secondary">
           Manage accounts, transactions, and liquidity
         </p>
       </div>
@@ -27,7 +26,7 @@ export default async function TreasuryPage() {
           <EmptyState
             icon={<Landmark className="size-5" aria-hidden="true" />}
             title="No treasury accounts configured"
-            description="Connect to Supabase to manage institutional treasury accounts."
+            description="Treasury accounts will appear here when your permitted Supabase records are available."
           />
         ) : (
           <div className="overflow-x-auto p-6 pt-0">
@@ -54,12 +53,6 @@ export default async function TreasuryPage() {
           </div>
         )}
       </Card>
-
-      <div className="grid gap-6 md:grid-cols-3">
-        <StatCard label="Total Liquidity" value="$0.00" />
-        <StatCard label="YTD Transactions" value="0" />
-        <StatCard label="Settlement Pending" value="0" />
-      </div>
     </div>
   );
 }

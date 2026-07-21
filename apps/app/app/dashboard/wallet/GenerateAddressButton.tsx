@@ -34,7 +34,7 @@ export function GenerateAddressButton({ pairs }: GenerateAddressButtonProps) {
   return (
     <div className="flex flex-col items-end gap-1">
       <Button type="button" variant="outline" size="sm" onClick={handleClick} loading={isPending}>
-        Generate reference
+        Request address
       </Button>
       {error && <p className="text-caption text-danger">{error}</p>}
     </div>

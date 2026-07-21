@@ -26,15 +26,15 @@ export async function generateDepositAddressAction(asset: string, network: strin
   try {
     await provider.provisionDepositAddress({ walletId, profileId: user.id, asset, network });
   } catch {
-    return { ok: false, error: "Unable to generate a deposit reference. Please try again." };
+    return { ok: false, error: "Crypto deposits are not yet enabled for this account. A provider-assigned address is required before deposits can be displayed." };
   }
 
   await createNotification(
     supabase,
     user.id,
     "deposit",
-    "Deposit reference generated",
-    `New ${asset} (${network}) funding reference created.`
+    "Deposit address available",
+    `New ${asset} (${network}) deposit destination is available.`
   );
 
   revalidatePath("/dashboard/wallet");
@@ -53,6 +53,7 @@ export async function requestWithdrawalAction(
   const asset = String(formData.get("asset") ?? "");
   const network = String(formData.get("network") ?? "");
   const destination = String(formData.get("destination") ?? "").trim();
+  const idempotencyKey = String(formData.get("idempotencyKey") ?? globalThis.crypto.randomUUID());
   const amount = Number(formData.get("amount"));
 
   if (!asset || !network || !destination || !Number.isFinite(amount) || amount <= 0) {
@@ -62,18 +63,17 @@ export async function requestWithdrawalAction(
   const walletId = await getWalletId(user.id, supabase);
   if (!walletId) return { ok: false, error: "Wallet not found." };
 
-  const provider = new InternalLedgerCustodyProvider(supabase);
-  const balances = await provider.getBalances(walletId);
-  const available = balances.find((balance) => balance.asset === asset && balance.network === network)?.amount ?? 0;
+  const { error } = await supabase.rpc("request_wallet_withdrawal", {
+    p_wallet_id: walletId,
+    p_asset: asset,
+    p_network: network,
+    p_amount: amount,
+    p_destination: destination,
+    p_idempotency_key: idempotencyKey
+  });
 
-  if (amount > available) {
-    return { ok: false, error: `Insufficient balance. Available: ${available.toFixed(2)} ${asset}.` };
-  }
-
-  try {
-    await provider.requestWithdrawal({ walletId, profileId: user.id, asset, network, amount, destination });
-  } catch {
-    return { ok: false, error: "Unable to submit withdrawal request. Please try again." };
+  if (error) {
+    return { ok: false, error: "Unable to submit withdrawal request for review." };
   }
 
   await createNotification(

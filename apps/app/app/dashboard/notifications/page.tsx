@@ -20,10 +20,10 @@ export default async function NotificationsPage() {
   const hasUnread = notifications.some((notification) => !notification.read_at);
 
   return (
-    <div className="space-y-8 py-8">
+    <div className="space-y-5 sm:space-y-6">
       <div>
-        <h1 className="text-h1 font-semibold tracking-tight text-text-primary">Notifications</h1>
-        <p className="mt-2 text-body text-text-secondary">Account, security, and portfolio alerts</p>
+        <h1 className="text-[1.35rem] font-semibold leading-tight tracking-tight text-text-primary sm:text-2xl">Notifications</h1>
+        <p className="mt-2 text-sm leading-6 text-text-secondary">Account, security, and portfolio alerts</p>
       </div>
 
       <Card>

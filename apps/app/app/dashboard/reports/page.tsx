@@ -6,10 +6,10 @@ export default async function ReportsPage() {
   await requireRole("analyst");
 
   return (
-    <div className="space-y-8 py-8">
+    <div className="space-y-5 sm:space-y-6">
       <div>
-        <h1 className="text-h1 font-semibold tracking-tight text-text-primary">Reports</h1>
-        <p className="mt-2 text-body text-text-secondary">
+        <h1 className="text-[1.35rem] font-semibold leading-tight tracking-tight text-text-primary sm:text-2xl">Reports</h1>
+        <p className="mt-2 text-sm leading-6 text-text-secondary">
           Institutional statements, performance summaries, and audit reports
         </p>
       </div>

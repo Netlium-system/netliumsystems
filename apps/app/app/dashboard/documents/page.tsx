@@ -24,10 +24,10 @@ export default async function DocumentsPage() {
   const documents = data ?? [];
 
   return (
-    <div className="space-y-8 py-8">
+    <div className="space-y-5 sm:space-y-6">
       <div>
-        <h1 className="text-h1 font-semibold tracking-tight text-text-primary">Documents</h1>
-        <p className="mt-2 text-body text-text-secondary">Institutional document repository</p>
+        <h1 className="text-[1.35rem] font-semibold leading-tight tracking-tight text-text-primary sm:text-2xl">Documents</h1>
+        <p className="mt-2 text-sm leading-6 text-text-secondary">Institutional document repository</p>
       </div>
 
       <Card>
