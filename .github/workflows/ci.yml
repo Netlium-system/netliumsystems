@@ -25,5 +25,5 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Typecheck app and workspace dependencies
-        run: npx turbo run typecheck --filter=@netlium/app...
+      - name: Typecheck all apps and workspace dependencies
+        run: npx turbo run typecheck --filter=@netlium/app... --filter=@neptlium/web...

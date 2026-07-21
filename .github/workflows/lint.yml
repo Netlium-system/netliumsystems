@@ -25,5 +25,5 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Lint app and workspace dependencies
-        run: npx turbo run lint --filter=@netlium/app...
+      - name: Lint all apps and workspace dependencies
+        run: npx turbo run lint --filter=@netlium/app... --filter=@neptlium/web...
