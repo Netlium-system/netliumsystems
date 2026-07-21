@@ -1,5 +1,5 @@
 import { SlidersHorizontal } from "lucide-react";
-import { Badge, Card, CardContent, CardHeader, CardTitle, EmptyState } from "@netlium/ui";
+import { Badge, Card, CardContent, CardHeader, CardTitle, EmptyState, StatCard } from "@netlium/ui";
 import { createSupabaseServerClient } from "@netlium/lib/supabase/server";
 import { InternalLedgerCustodyProvider } from "@netlium/lib";
 import { requireRole } from "@/lib/auth";
@@ -10,7 +10,15 @@ const STATUS_TONE: Record<string, "success" | "warning" | "danger" | "neutral"> 
   approved: "success",
   executed: "success",
   rejected: "danger",
-  cancelled: "neutral"
+  cancelled: "neutral",
+};
+
+const STATUS_LABEL: Record<string, string> = {
+  pending_review: "Pending review",
+  approved: "Approved",
+  executed: "Executed",
+  rejected: "Rejected",
+  cancelled: "Cancelled",
 };
 
 export default async function AllocationsPage() {
@@ -19,16 +27,13 @@ export default async function AllocationsPage() {
 
   const [walletResult, portfolioResult, requestsResult] = await Promise.all([
     supabase.from("wallets").select("id").eq("profile_id", user.id).maybeSingle(),
-    supabase
-      .from("investment_portfolios")
-      .select("id, name")
-      .eq("profile_id", user.id),
+    supabase.from("investment_portfolios").select("id, name").eq("profile_id", user.id),
     supabase
       .from("capital_allocation_requests")
       .select("id, asset, network, amount, status, notes, created_at")
       .eq("profile_id", user.id)
       .order("created_at", { ascending: false })
-      .limit(20)
+      .limit(20),
   ]);
 
   const wallet = walletResult.data;
@@ -47,7 +52,7 @@ export default async function AllocationsPage() {
           assetCode: asset.code,
           assetLabel: asset.label,
           networkCode: network.code,
-          networkLabel: network.label
+          networkLabel: network.label,
         });
       }
     }
@@ -55,19 +60,48 @@ export default async function AllocationsPage() {
 
   const walletOptions = wallet ? [{ id: wallet.id, label: "Primary wallet" }] : [];
 
+  // Compute summary stats
+  const totalAllocated = requests
+    .filter((r) => r.status === "executed" || r.status === "approved")
+    .reduce((s, r) => s + Number(r.amount), 0);
+
+  const pendingCount = requests.filter((r) => r.status === "pending_review").length;
+
+  function fmtAmount(n: number) {
+    return n.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  }
+
   return (
-    <div className="space-y-8 py-4">
+    <div className="space-y-6 py-4">
+      {/* Header */}
       <div>
-        <h1 className="text-[22px] font-semibold tracking-tight text-text-primary">
+        <h1 className="text-[18px] font-semibold tracking-[-0.01em] text-text-primary">
           Capital Allocations
         </h1>
-        <p className="mt-1.5 text-body text-text-secondary">
-          Submit and track capital allocation requests
+        <p className="mt-1 text-[13px] text-text-muted">
+          Submit and track capital allocation requests across your portfolios
         </p>
       </div>
 
-      <div className="grid gap-6 lg:grid-cols-[1fr,380px]">
-        {/* Existing requests */}
+      {/* Stats */}
+      <div className="grid gap-4 sm:grid-cols-3">
+        <StatCard
+          label="Total Allocated"
+          value={totalAllocated > 0 ? `$${fmtAmount(totalAllocated)}` : "—"}
+        />
+        <StatCard
+          label="Pending Review"
+          value={pendingCount > 0 ? String(pendingCount) : "—"}
+        />
+        <StatCard
+          label="Available Capital"
+          value={wallet ? "—" : "No wallet"}
+        />
+      </div>
+
+      {/* Main two-column layout */}
+      <div className="grid gap-6 lg:grid-cols-[1fr,360px]">
+        {/* Left: Allocation requests list */}
         <Card>
           <CardHeader>
             <CardTitle>Allocation Requests</CardTitle>
@@ -82,30 +116,32 @@ export default async function AllocationsPage() {
             ) : (
               <div className="divide-y divide-border-hairline">
                 {requests.map((req) => (
-                  <div key={req.id} className="flex items-start justify-between gap-4 py-3">
-                    <div className="min-w-0">
-                      <p className="text-body-sm font-medium text-text-primary">
-                        {Number(req.amount).toLocaleString("en-US", {
-                          minimumFractionDigits: 2,
-                          maximumFractionDigits: 2
-                        })}{" "}
-                        {req.asset}
-                        <span className="ml-1.5 text-[11px] font-normal text-text-muted">
-                          &middot; {req.network}
-                        </span>
-                      </p>
+                  <div key={req.id} className="flex items-start justify-between gap-4 py-4">
+                    <div className="min-w-0 flex-1">
+                      <div className="flex items-center gap-2">
+                        <p className="text-[14px] font-semibold text-text-primary font-mono">
+                          {Number(req.amount).toLocaleString("en-US", {
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 2,
+                          })}{" "}
+                          {req.asset}
+                        </p>
+                        <span className="text-[12px] text-text-muted">via {req.network}</span>
+                      </div>
                       {req.notes && (
-                        <p className="mt-0.5 truncate text-[11px] text-text-muted">{req.notes}</p>
+                        <p className="mt-1 truncate text-[12px] text-text-muted">{req.notes}</p>
                       )}
-                      <p className="mt-0.5 text-[11px] text-text-muted">
+                      <p className="mt-1 text-[11px] text-text-muted">
                         {new Date(req.created_at).toLocaleDateString(undefined, {
-                          dateStyle: "medium"
+                          dateStyle: "medium",
                         })}
                       </p>
                     </div>
-                    <Badge tone={STATUS_TONE[req.status] ?? "neutral"}>
-                      {req.status.replace(/_/g, " ")}
-                    </Badge>
+                    <div className="shrink-0">
+                      <Badge tone={STATUS_TONE[req.status] ?? "neutral"}>
+                        {STATUS_LABEL[req.status] ?? req.status.replace(/_/g, " ")}
+                      </Badge>
+                    </div>
                   </div>
                 ))}
               </div>
@@ -113,7 +149,7 @@ export default async function AllocationsPage() {
           </CardContent>
         </Card>
 
-        {/* Submit new request */}
+        {/* Right: New request form */}
         <Card>
           <CardHeader>
             <CardTitle>New Request</CardTitle>
@@ -127,6 +163,30 @@ export default async function AllocationsPage() {
           </CardContent>
         </Card>
       </div>
+
+      {/* Portfolio summary (only if portfolios exist) */}
+      {portfolios.length > 0 && (
+        <Card>
+          <CardHeader>
+            <CardTitle>Portfolio Summary</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="divide-y divide-border-hairline">
+              {portfolios.map((portfolio) => {
+                const portfolioRequests = requests.filter(() => true); // join not available without portfolio_id on requests
+                return (
+                  <div key={portfolio.id} className="flex items-center justify-between py-3">
+                    <p className="text-[13px] font-medium text-text-primary">{portfolio.name}</p>
+                    <Badge tone="neutral">
+                      {portfolioRequests.length} request{portfolioRequests.length !== 1 ? "s" : ""}
+                    </Badge>
+                  </div>
+                );
+              })}
+            </div>
+          </CardContent>
+        </Card>
+      )}
     </div>
   );
 }

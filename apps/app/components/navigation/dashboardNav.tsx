@@ -1,16 +1,17 @@
 import {
+  ArrowDownLeft,
   ArrowLeftRight,
+  ArrowUpRight,
   Bell,
   Briefcase,
   FileBarChart2,
   FileText,
   LayoutDashboard,
-  Landmark,
-  Newspaper,
+  ListOrdered,
   Settings as SettingsIcon,
-  ShieldAlert,
   ShieldCheck,
   SlidersHorizontal,
+  Users,
   Wallet
 } from "lucide-react";
 import type { Role } from "@netlium/lib";
@@ -45,9 +46,9 @@ export const dashboardNavItems: readonly RoleAwareNavItem[] = [
     icon: <Briefcase className="size-4" />
   },
   {
-    label: "Allocations",
+    label: "Allocate Capital",
     href: "/dashboard/allocations",
-    minRole: "analyst",
+    minRole: "user",
     group: "Capital",
     icon: <SlidersHorizontal className="size-4" />
   },
@@ -61,25 +62,32 @@ export const dashboardNavItems: readonly RoleAwareNavItem[] = [
 
   // Operations
   {
-    label: "Transactions",
-    href: "/dashboard/transactions",
+    label: "Deposit",
+    href: "/dashboard/deposit",
+    minRole: "user",
+    group: "Operations",
+    icon: <ArrowDownLeft className="size-4" />
+  },
+  {
+    label: "Transfer",
+    href: "/dashboard/transfer",
     minRole: "user",
     group: "Operations",
     icon: <ArrowLeftRight className="size-4" />
   },
   {
-    label: "Treasury",
-    href: "/dashboard/treasury",
-    minRole: "operator",
+    label: "Withdrawals",
+    href: "/dashboard/withdrawals",
+    minRole: "user",
     group: "Operations",
-    icon: <Landmark className="size-4" />
+    icon: <ArrowUpRight className="size-4" />
   },
   {
-    label: "Risk",
-    href: "/dashboard/risk",
-    minRole: "manager",
+    label: "Transactions",
+    href: "/dashboard/transactions",
+    minRole: "user",
     group: "Operations",
-    icon: <ShieldAlert className="size-4" />
+    icon: <ListOrdered className="size-4" />
   },
 
   // Records
@@ -98,11 +106,11 @@ export const dashboardNavItems: readonly RoleAwareNavItem[] = [
     icon: <FileBarChart2 className="size-4" />
   },
   {
-    label: "Research",
-    href: "/dashboard/research",
+    label: "Counterparties",
+    href: "/dashboard/counterparties",
     minRole: "user",
     group: "Records",
-    icon: <Newspaper className="size-4" />
+    icon: <Users className="size-4" />
   },
 
   // Account
